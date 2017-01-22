@@ -6,6 +6,7 @@ function GetBetHide()
 {
     $('.BetContener').hide();
 }
+
 function GetMoneyShow() {
     $('.MoneySetDivs').hide()
     $('.MoneyGetDivs').show()
