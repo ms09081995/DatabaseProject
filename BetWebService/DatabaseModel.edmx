@@ -1,0 +1,689 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="STS2Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Attrib">
+          <Key>
+            <PropertyRef Name="id_przyp" />
+          </Key>
+          <Property Name="id_przyp" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_mecz" Type="int" />
+          <Property Name="id_zaklad" Type="int" />
+        </EntityType>
+        <EntityType Name="Bet">
+          <Key>
+            <PropertyRef Name="id_zaklad" />
+          </Key>
+          <Property Name="id_zaklad" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="kwota" Type="int" Nullable="false" />
+          <Property Name="wygrana" Type="int" Nullable="false" />
+          <Property Name="id_mecz" Type="int" />
+          <Property Name="id_user" Type="int" />
+          <Property Name="status" Type="char" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="League">
+          <Key>
+            <PropertyRef Name="id_liga" />
+          </Key>
+          <Property Name="id_liga" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nazwa" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Match">
+          <Key>
+            <PropertyRef Name="id_mecz" />
+          </Key>
+          <Property Name="id_mecz" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="kurs" Type="int" Nullable="false" />
+          <Property Name="bramki_gosc" Type="int" Nullable="false" />
+          <Property Name="bramki_gosp" Type="int" Nullable="false" />
+          <Property Name="data" Type="datetime" Nullable="false" />
+          <Property Name="minuta" Type="int" />
+          <Property Name="id_gosc" Type="int" />
+          <Property Name="id_gosp" Type="int" />
+        </EntityType>
+        <EntityType Name="Participation">
+          <Key>
+            <PropertyRef Name="id_udzial" />
+          </Key>
+          <Property Name="id_udzial" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_gosc" Type="int" />
+          <Property Name="id_gosp" Type="int" />
+          <Property Name="id_mecz" Type="int" />
+        </EntityType>
+        <EntityType Name="Player">
+          <Key>
+            <PropertyRef Name="id_zaw" />
+          </Key>
+          <Property Name="id_zaw" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="imie" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="nazwisko" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="pozycja" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="id_druz" Type="int" />
+          <Property Name="gole" Type="int" />
+          <Property Name="czyste_konto" Type="int" />
+          <Property Name="narodowosc" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Team">
+          <Key>
+            <PropertyRef Name="id_druz" />
+          </Key>
+          <Property Name="id_druz" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nazwa" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="stadion" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="id_liga" Type="int" />
+          <Property Name="liga_mistrzow" Type="varchar" MaxLength="3" />
+          <Property Name="liga_europy" Type="varchar" MaxLength="3" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="id_user" />
+          </Key>
+          <Property Name="id_user" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="login" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="haslo" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="wiek" Type="int" Nullable="false" />
+          <Property Name="stan_konta" Type="int" />
+        </EntityType>
+        <Association Name="FK__Druzyna__id_liga__145C0A3F">
+          <End Role="League" Type="Self.League" Multiplicity="0..1" />
+          <End Role="Team" Type="Self.Team" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="League">
+              <PropertyRef Name="id_liga" />
+            </Principal>
+            <Dependent Role="Team">
+              <PropertyRef Name="id_liga" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Mecz__id_gosc__1A14E395">
+          <End Role="Team" Type="Self.Team" Multiplicity="0..1" />
+          <End Role="Match" Type="Self.Match" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="id_druz" />
+            </Principal>
+            <Dependent Role="Match">
+              <PropertyRef Name="id_gosc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Mecz__id_gosp__1B0907CE">
+          <End Role="Team" Type="Self.Team" Multiplicity="0..1" />
+          <End Role="Match" Type="Self.Match" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="id_druz" />
+            </Principal>
+            <Dependent Role="Match">
+              <PropertyRef Name="id_gosp" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Przypisan__id_me__21B6055D">
+          <End Role="Match" Type="Self.Match" Multiplicity="0..1" />
+          <End Role="Attrib" Type="Self.Attrib" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Match">
+              <PropertyRef Name="id_mecz" />
+            </Principal>
+            <Dependent Role="Attrib">
+              <PropertyRef Name="id_mecz" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Przypisan__id_za__22AA2996">
+          <End Role="Bet" Type="Self.Bet" Multiplicity="0..1" />
+          <End Role="Attrib" Type="Self.Attrib" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bet">
+              <PropertyRef Name="id_zaklad" />
+            </Principal>
+            <Dependent Role="Attrib">
+              <PropertyRef Name="id_zaklad" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Udzial__id_gosc__25869641">
+          <End Role="Team" Type="Self.Team" Multiplicity="0..1" />
+          <End Role="Participation" Type="Self.Participation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="id_druz" />
+            </Principal>
+            <Dependent Role="Participation">
+              <PropertyRef Name="id_gosc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Udzial__id_gosp__267ABA7A">
+          <End Role="Team" Type="Self.Team" Multiplicity="0..1" />
+          <End Role="Participation" Type="Self.Participation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="id_druz" />
+            </Principal>
+            <Dependent Role="Participation">
+              <PropertyRef Name="id_gosp" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Udzial__id_mecz__276EDEB3">
+          <End Role="Match" Type="Self.Match" Multiplicity="0..1" />
+          <End Role="Participation" Type="Self.Participation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Match">
+              <PropertyRef Name="id_mecz" />
+            </Principal>
+            <Dependent Role="Participation">
+              <PropertyRef Name="id_mecz" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Zaklad__id_mecz__1DE57479">
+          <End Role="Match" Type="Self.Match" Multiplicity="0..1" />
+          <End Role="Bet" Type="Self.Bet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Match">
+              <PropertyRef Name="id_mecz" />
+            </Principal>
+            <Dependent Role="Bet">
+              <PropertyRef Name="id_mecz" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Zaklad__id_user__1ED998B2">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Bet" Type="Self.Bet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id_user" />
+            </Principal>
+            <Dependent Role="Bet">
+              <PropertyRef Name="id_user" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Zawodnik__id_dru__398D8EEE">
+          <End Role="Team" Type="Self.Team" Multiplicity="0..1" />
+          <End Role="Player" Type="Self.Player" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="id_druz" />
+            </Principal>
+            <Dependent Role="Player">
+              <PropertyRef Name="id_druz" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="STS2ModelStoreContainer">
+          <EntitySet Name="Attrib" EntityType="Self.Attrib" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Bet" EntityType="Self.Bet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="League" EntityType="Self.League" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Match" EntityType="Self.Match" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Participation" EntityType="Self.Participation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Player" EntityType="Self.Player" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Team" EntityType="Self.Team" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Druzyna__id_liga__145C0A3F" Association="Self.FK__Druzyna__id_liga__145C0A3F">
+            <End Role="League" EntitySet="League" />
+            <End Role="Team" EntitySet="Team" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Mecz__id_gosc__1A14E395" Association="Self.FK__Mecz__id_gosc__1A14E395">
+            <End Role="Team" EntitySet="Team" />
+            <End Role="Match" EntitySet="Match" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Mecz__id_gosp__1B0907CE" Association="Self.FK__Mecz__id_gosp__1B0907CE">
+            <End Role="Team" EntitySet="Team" />
+            <End Role="Match" EntitySet="Match" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Przypisan__id_me__21B6055D" Association="Self.FK__Przypisan__id_me__21B6055D">
+            <End Role="Match" EntitySet="Match" />
+            <End Role="Attrib" EntitySet="Attrib" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Przypisan__id_za__22AA2996" Association="Self.FK__Przypisan__id_za__22AA2996">
+            <End Role="Bet" EntitySet="Bet" />
+            <End Role="Attrib" EntitySet="Attrib" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Udzial__id_gosc__25869641" Association="Self.FK__Udzial__id_gosc__25869641">
+            <End Role="Team" EntitySet="Team" />
+            <End Role="Participation" EntitySet="Participation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Udzial__id_gosp__267ABA7A" Association="Self.FK__Udzial__id_gosp__267ABA7A">
+            <End Role="Team" EntitySet="Team" />
+            <End Role="Participation" EntitySet="Participation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Udzial__id_mecz__276EDEB3" Association="Self.FK__Udzial__id_mecz__276EDEB3">
+            <End Role="Match" EntitySet="Match" />
+            <End Role="Participation" EntitySet="Participation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Zaklad__id_mecz__1DE57479" Association="Self.FK__Zaklad__id_mecz__1DE57479">
+            <End Role="Match" EntitySet="Match" />
+            <End Role="Bet" EntitySet="Bet" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Zaklad__id_user__1ED998B2" Association="Self.FK__Zaklad__id_user__1ED998B2">
+            <End Role="User" EntitySet="User" />
+            <End Role="Bet" EntitySet="Bet" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Zawodnik__id_dru__398D8EEE" Association="Self.FK__Zawodnik__id_dru__398D8EEE">
+            <End Role="Team" EntitySet="Team" />
+            <End Role="Player" EntitySet="Player" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="STS2Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Attrib">
+          <Key>
+            <PropertyRef Name="id_przyp" />
+          </Key>
+          <Property Name="id_przyp" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_mecz" Type="Int32" />
+          <Property Name="id_zaklad" Type="Int32" />
+          <NavigationProperty Name="Match" Relationship="Self.FK__Przypisan__id_me__21B6055D" FromRole="Attrib" ToRole="Match" />
+          <NavigationProperty Name="Bet" Relationship="Self.FK__Przypisan__id_za__22AA2996" FromRole="Attrib" ToRole="Bet" />
+        </EntityType>
+        <EntityType Name="Bet">
+          <Key>
+            <PropertyRef Name="id_zaklad" />
+          </Key>
+          <Property Name="id_zaklad" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="kwota" Type="Int32" Nullable="false" />
+          <Property Name="wygrana" Type="Int32" Nullable="false" />
+          <Property Name="id_mecz" Type="Int32" />
+          <Property Name="id_user" Type="Int32" />
+          <NavigationProperty Name="Attribs" Relationship="Self.FK__Przypisan__id_za__22AA2996" FromRole="Bet" ToRole="Attrib" />
+          <NavigationProperty Name="Match" Relationship="Self.FK__Zaklad__id_mecz__1DE57479" FromRole="Bet" ToRole="Match" />
+          <NavigationProperty Name="User" Relationship="Self.FK__Zaklad__id_user__1ED998B2" FromRole="Bet" ToRole="User" />
+          <Property Name="status" Type="String" MaxLength="255" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <EntityType Name="League">
+          <Key>
+            <PropertyRef Name="id_liga" />
+          </Key>
+          <Property Name="id_liga" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nazwa" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Teams" Relationship="Self.FK__Druzyna__id_liga__145C0A3F" FromRole="League" ToRole="Team" />
+        </EntityType>
+        <EntityType Name="Match">
+          <Key>
+            <PropertyRef Name="id_mecz" />
+          </Key>
+          <Property Name="id_mecz" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="kurs" Type="Int32" Nullable="false" />
+          <Property Name="bramki_gosc" Type="Int32" Nullable="false" />
+          <Property Name="bramki_gosp" Type="Int32" Nullable="false" />
+          <Property Name="data" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="minuta" Type="Int32" />
+          <Property Name="id_gosc" Type="Int32" />
+          <Property Name="id_gosp" Type="Int32" />
+          <NavigationProperty Name="Attribs" Relationship="Self.FK__Przypisan__id_me__21B6055D" FromRole="Match" ToRole="Attrib" />
+          <NavigationProperty Name="Bets" Relationship="Self.FK__Zaklad__id_mecz__1DE57479" FromRole="Match" ToRole="Bet" />
+          <NavigationProperty Name="Team" Relationship="Self.FK__Mecz__id_gosc__1A14E395" FromRole="Match" ToRole="Team" />
+          <NavigationProperty Name="Team1" Relationship="Self.FK__Mecz__id_gosp__1B0907CE" FromRole="Match" ToRole="Team" />
+          <NavigationProperty Name="Participations" Relationship="Self.FK__Udzial__id_mecz__276EDEB3" FromRole="Match" ToRole="Participation" />
+        </EntityType>
+        <EntityType Name="Participation">
+          <Key>
+            <PropertyRef Name="id_udzial" />
+          </Key>
+          <Property Name="id_udzial" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_gosc" Type="Int32" />
+          <Property Name="id_gosp" Type="Int32" />
+          <Property Name="id_mecz" Type="Int32" />
+          <NavigationProperty Name="Match" Relationship="Self.FK__Udzial__id_mecz__276EDEB3" FromRole="Participation" ToRole="Match" />
+          <NavigationProperty Name="Team" Relationship="Self.FK__Udzial__id_gosc__25869641" FromRole="Participation" ToRole="Team" />
+          <NavigationProperty Name="Team1" Relationship="Self.FK__Udzial__id_gosp__267ABA7A" FromRole="Participation" ToRole="Team" />
+        </EntityType>
+        <EntityType Name="Player">
+          <Key>
+            <PropertyRef Name="id_zaw" />
+          </Key>
+          <Property Name="id_zaw" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="imie" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="nazwisko" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="pozycja" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="id_druz" Type="Int32" />
+          <Property Name="gole" Type="Int32" />
+          <Property Name="czyste_konto" Type="Int32" />
+          <Property Name="narodowosc" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Team" Relationship="Self.FK__Zawodnik__id_dru__398D8EEE" FromRole="Player" ToRole="Team" />
+        </EntityType>
+        <EntityType Name="Team">
+          <Key>
+            <PropertyRef Name="id_druz" />
+          </Key>
+          <Property Name="id_druz" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nazwa" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="stadion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="id_liga" Type="Int32" />
+          <Property Name="liga_mistrzow" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="liga_europy" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="League" Relationship="Self.FK__Druzyna__id_liga__145C0A3F" FromRole="Team" ToRole="League" />
+          <NavigationProperty Name="Matches" Relationship="Self.FK__Mecz__id_gosc__1A14E395" FromRole="Team" ToRole="Match" />
+          <NavigationProperty Name="Matches1" Relationship="Self.FK__Mecz__id_gosp__1B0907CE" FromRole="Team" ToRole="Match" />
+          <NavigationProperty Name="Participations" Relationship="Self.FK__Udzial__id_gosc__25869641" FromRole="Team" ToRole="Participation" />
+          <NavigationProperty Name="Participations1" Relationship="Self.FK__Udzial__id_gosp__267ABA7A" FromRole="Team" ToRole="Participation" />
+          <NavigationProperty Name="Players" Relationship="Self.FK__Zawodnik__id_dru__398D8EEE" FromRole="Team" ToRole="Player" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="id_user" />
+          </Key>
+          <Property Name="id_user" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="login" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="haslo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="wiek" Type="Int32" Nullable="false" />
+          <Property Name="stan_konta" Type="Int32" />
+          <NavigationProperty Name="Bets" Relationship="Self.FK__Zaklad__id_user__1ED998B2" FromRole="User" ToRole="Bet" />
+        </EntityType>
+        <Association Name="FK__Przypisan__id_me__21B6055D">
+          <End Role="Match" Type="Self.Match" Multiplicity="0..1" />
+          <End Role="Attrib" Type="Self.Attrib" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Match">
+              <PropertyRef Name="id_mecz" />
+            </Principal>
+            <Dependent Role="Attrib">
+              <PropertyRef Name="id_mecz" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Przypisan__id_za__22AA2996">
+          <End Role="Bet" Type="Self.Bet" Multiplicity="0..1" />
+          <End Role="Attrib" Type="Self.Attrib" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bet">
+              <PropertyRef Name="id_zaklad" />
+            </Principal>
+            <Dependent Role="Attrib">
+              <PropertyRef Name="id_zaklad" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Zaklad__id_mecz__1DE57479">
+          <End Role="Match" Type="Self.Match" Multiplicity="0..1" />
+          <End Role="Bet" Type="Self.Bet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Match">
+              <PropertyRef Name="id_mecz" />
+            </Principal>
+            <Dependent Role="Bet">
+              <PropertyRef Name="id_mecz" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Zaklad__id_user__1ED998B2">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Bet" Type="Self.Bet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id_user" />
+            </Principal>
+            <Dependent Role="Bet">
+              <PropertyRef Name="id_user" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Druzyna__id_liga__145C0A3F">
+          <End Role="League" Type="Self.League" Multiplicity="0..1" />
+          <End Role="Team" Type="Self.Team" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="League">
+              <PropertyRef Name="id_liga" />
+            </Principal>
+            <Dependent Role="Team">
+              <PropertyRef Name="id_liga" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Mecz__id_gosc__1A14E395">
+          <End Role="Team" Type="Self.Team" Multiplicity="0..1" />
+          <End Role="Match" Type="Self.Match" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="id_druz" />
+            </Principal>
+            <Dependent Role="Match">
+              <PropertyRef Name="id_gosc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Mecz__id_gosp__1B0907CE">
+          <End Role="Team" Type="Self.Team" Multiplicity="0..1" />
+          <End Role="Match" Type="Self.Match" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="id_druz" />
+            </Principal>
+            <Dependent Role="Match">
+              <PropertyRef Name="id_gosp" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Udzial__id_mecz__276EDEB3">
+          <End Role="Match" Type="Self.Match" Multiplicity="0..1" />
+          <End Role="Participation" Type="Self.Participation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Match">
+              <PropertyRef Name="id_mecz" />
+            </Principal>
+            <Dependent Role="Participation">
+              <PropertyRef Name="id_mecz" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Udzial__id_gosc__25869641">
+          <End Role="Team" Type="Self.Team" Multiplicity="0..1" />
+          <End Role="Participation" Type="Self.Participation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="id_druz" />
+            </Principal>
+            <Dependent Role="Participation">
+              <PropertyRef Name="id_gosc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Udzial__id_gosp__267ABA7A">
+          <End Role="Team" Type="Self.Team" Multiplicity="0..1" />
+          <End Role="Participation" Type="Self.Participation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="id_druz" />
+            </Principal>
+            <Dependent Role="Participation">
+              <PropertyRef Name="id_gosp" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Zawodnik__id_dru__398D8EEE">
+          <End Role="Team" Type="Self.Team" Multiplicity="0..1" />
+          <End Role="Player" Type="Self.Player" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="id_druz" />
+            </Principal>
+            <Dependent Role="Player">
+              <PropertyRef Name="id_druz" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="STS2Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Attribs" EntityType="Self.Attrib" />
+          <EntitySet Name="Bets" EntityType="Self.Bet" />
+          <EntitySet Name="Leagues" EntityType="Self.League" />
+          <EntitySet Name="Matches" EntityType="Self.Match" />
+          <EntitySet Name="Participations" EntityType="Self.Participation" />
+          <EntitySet Name="Players" EntityType="Self.Player" />
+          <EntitySet Name="Teams" EntityType="Self.Team" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK__Przypisan__id_me__21B6055D" Association="Self.FK__Przypisan__id_me__21B6055D">
+            <End Role="Match" EntitySet="Matches" />
+            <End Role="Attrib" EntitySet="Attribs" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Przypisan__id_za__22AA2996" Association="Self.FK__Przypisan__id_za__22AA2996">
+            <End Role="Bet" EntitySet="Bets" />
+            <End Role="Attrib" EntitySet="Attribs" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Zaklad__id_mecz__1DE57479" Association="Self.FK__Zaklad__id_mecz__1DE57479">
+            <End Role="Match" EntitySet="Matches" />
+            <End Role="Bet" EntitySet="Bets" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Zaklad__id_user__1ED998B2" Association="Self.FK__Zaklad__id_user__1ED998B2">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Bet" EntitySet="Bets" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Druzyna__id_liga__145C0A3F" Association="Self.FK__Druzyna__id_liga__145C0A3F">
+            <End Role="League" EntitySet="Leagues" />
+            <End Role="Team" EntitySet="Teams" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Mecz__id_gosc__1A14E395" Association="Self.FK__Mecz__id_gosc__1A14E395">
+            <End Role="Team" EntitySet="Teams" />
+            <End Role="Match" EntitySet="Matches" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Mecz__id_gosp__1B0907CE" Association="Self.FK__Mecz__id_gosp__1B0907CE">
+            <End Role="Team" EntitySet="Teams" />
+            <End Role="Match" EntitySet="Matches" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Udzial__id_mecz__276EDEB3" Association="Self.FK__Udzial__id_mecz__276EDEB3">
+            <End Role="Match" EntitySet="Matches" />
+            <End Role="Participation" EntitySet="Participations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Udzial__id_gosc__25869641" Association="Self.FK__Udzial__id_gosc__25869641">
+            <End Role="Team" EntitySet="Teams" />
+            <End Role="Participation" EntitySet="Participations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Udzial__id_gosp__267ABA7A" Association="Self.FK__Udzial__id_gosp__267ABA7A">
+            <End Role="Team" EntitySet="Teams" />
+            <End Role="Participation" EntitySet="Participations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Zawodnik__id_dru__398D8EEE" Association="Self.FK__Zawodnik__id_dru__398D8EEE">
+            <End Role="Team" EntitySet="Teams" />
+            <End Role="Player" EntitySet="Players" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="STS2ModelStoreContainer" CdmEntityContainer="STS2Entities">
+          <EntitySetMapping Name="Attribs">
+            <EntityTypeMapping TypeName="STS2Model.Attrib">
+              <MappingFragment StoreEntitySet="Attrib">
+                <ScalarProperty Name="id_przyp" ColumnName="id_przyp" />
+                <ScalarProperty Name="id_mecz" ColumnName="id_mecz" />
+                <ScalarProperty Name="id_zaklad" ColumnName="id_zaklad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Bets">
+            <EntityTypeMapping TypeName="STS2Model.Bet">
+              <MappingFragment StoreEntitySet="Bet">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="id_zaklad" ColumnName="id_zaklad" />
+                <ScalarProperty Name="kwota" ColumnName="kwota" />
+                <ScalarProperty Name="wygrana" ColumnName="wygrana" />
+                <ScalarProperty Name="id_mecz" ColumnName="id_mecz" />
+                <ScalarProperty Name="id_user" ColumnName="id_user" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Leagues">
+            <EntityTypeMapping TypeName="STS2Model.League">
+              <MappingFragment StoreEntitySet="League">
+                <ScalarProperty Name="id_liga" ColumnName="id_liga" />
+                <ScalarProperty Name="nazwa" ColumnName="nazwa" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Matches">
+            <EntityTypeMapping TypeName="STS2Model.Match">
+              <MappingFragment StoreEntitySet="Match">
+                <ScalarProperty Name="id_mecz" ColumnName="id_mecz" />
+                <ScalarProperty Name="kurs" ColumnName="kurs" />
+                <ScalarProperty Name="bramki_gosc" ColumnName="bramki_gosc" />
+                <ScalarProperty Name="bramki_gosp" ColumnName="bramki_gosp" />
+                <ScalarProperty Name="data" ColumnName="data" />
+                <ScalarProperty Name="minuta" ColumnName="minuta" />
+                <ScalarProperty Name="id_gosc" ColumnName="id_gosc" />
+                <ScalarProperty Name="id_gosp" ColumnName="id_gosp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Participations">
+            <EntityTypeMapping TypeName="STS2Model.Participation">
+              <MappingFragment StoreEntitySet="Participation">
+                <ScalarProperty Name="id_udzial" ColumnName="id_udzial" />
+                <ScalarProperty Name="id_gosc" ColumnName="id_gosc" />
+                <ScalarProperty Name="id_gosp" ColumnName="id_gosp" />
+                <ScalarProperty Name="id_mecz" ColumnName="id_mecz" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Players">
+            <EntityTypeMapping TypeName="STS2Model.Player">
+              <MappingFragment StoreEntitySet="Player">
+                <ScalarProperty Name="id_zaw" ColumnName="id_zaw" />
+                <ScalarProperty Name="imie" ColumnName="imie" />
+                <ScalarProperty Name="nazwisko" ColumnName="nazwisko" />
+                <ScalarProperty Name="pozycja" ColumnName="pozycja" />
+                <ScalarProperty Name="id_druz" ColumnName="id_druz" />
+                <ScalarProperty Name="gole" ColumnName="gole" />
+                <ScalarProperty Name="czyste_konto" ColumnName="czyste_konto" />
+                <ScalarProperty Name="narodowosc" ColumnName="narodowosc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Teams">
+            <EntityTypeMapping TypeName="STS2Model.Team">
+              <MappingFragment StoreEntitySet="Team">
+                <ScalarProperty Name="id_druz" ColumnName="id_druz" />
+                <ScalarProperty Name="nazwa" ColumnName="nazwa" />
+                <ScalarProperty Name="stadion" ColumnName="stadion" />
+                <ScalarProperty Name="id_liga" ColumnName="id_liga" />
+                <ScalarProperty Name="liga_mistrzow" ColumnName="liga_mistrzow" />
+                <ScalarProperty Name="liga_europy" ColumnName="liga_europy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="STS2Model.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="id_user" ColumnName="id_user" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="haslo" ColumnName="haslo" />
+                <ScalarProperty Name="wiek" ColumnName="wiek" />
+                <ScalarProperty Name="stan_konta" ColumnName="stan_konta" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

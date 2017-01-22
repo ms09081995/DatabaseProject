@@ -1,0 +1,108 @@
+﻿
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/bootstrap.css")
+    @Styles.Render("~/Content/Main.css")
+    @Scripts.Render("~/Scripts/Main.js")
+    @Scripts.Render("~/Scripts/jquery-1.9.1.js")
+   
+</head>
+<body>
+    <div class="MainTittlePan">
+        <div class="MainTittle">
+            <span>
+                Tytuł
+
+            </span>
+        </div>
+    </div>
+    @if (@Html.Action("GetCurrentUser", "Account").ToString() != "")
+    {
+        <div class="UserPan">
+            <div class="UserIdentificationPan">
+
+                <span>
+                    Zalogowany Użytkownik:
+                </span>
+                <span class="CurrentUserLogin">
+                    @Html.Action("GetCurrentUser", "Account")
+                </span>
+                <span>
+                    Stan Konta:
+                </span>
+                <span>
+                    @Html.Action("GetCurrentUserMoney", "Account") PLN
+                </span>
+                <div class="btn btn-default stsBtn" style="background-color:red" onclick="SetMoneyShow()">
+                    Doładuj konto
+                </div>
+                <div class="btn btn-default stsBtn" style="background-color:red" onclick="GetMoneyShow()">
+                    Wypłac pieniądze
+                </div>
+            </div>
+
+        </div>
+    }
+    <div class="MainMenuPan col-md-10 col-md-offset-1">
+        <div class="col-md-2 btn btn-default stsBtn" style="background-color:red">
+            @Html.ActionLink("Zaloguj się", "../Account/Login")
+        </div>
+        <div class="col-md-2 btn btn-default stsBtn" style="background-color:red">
+            @Html.ActionLink("Załóż konto", "../Account/Register")
+        </div>
+
+        <div class="col-md-2 btn btn-default stsBtn" style="background-color:red">
+            @Html.ActionLink("Mecze", "../Match/Matches")
+        </div>
+
+        <div class="col-md-2 btn btn-default stsBtn" style="background-color:red">
+            @Html.ActionLink("Moje zakłady", "../Bet/MyBets")
+        </div>
+
+        <div class="col-md-2 btn btn-default stsBtn" style="background-color:red">
+            <a>Menu5</a>
+        </div>
+
+        <div class="col-md-2 btn btn-default stsBtn" style="background-color:red">
+            <a>Menu6</a>
+        </div>
+
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Tekst</p>
+        </footer>
+    </div>
+
+    <div class="MoneyContener" style="display:none">
+        <div class="MoneyTittle">Złóż zakład</div>
+        <div class="MoneyContent">
+            <div>
+                <span class="">Kwota</span>
+                <input class="" />
+                <div class=""></div>
+            </div>
+            <div class="MoneyGetDivs">
+                <span class="">Numer konta: </span>
+                <input class="" />
+                <div class=""></div>
+            </div>
+            <div class="MoneySetDivs">
+                <div class="btn btn-default stsBtn GetBetBtn" onclick="">Wpłać</div>
+            </div>
+            <div class="MoneyGetDivs">
+                <div class="btn btn-default stsBtn GetBetBtn" onclick="">Wypłać</div>
+            </div>
+            <div>
+                <div class="btn btn-default stsBtn GetBetBtn" onclick="GetMoneyHide()">Anuluj</div>
+            </div>
+        </div>
+
+</body>
+</html>

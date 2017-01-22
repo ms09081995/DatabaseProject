@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="c04bd355d3424b0d80dea18d9d8a0252" Name="Diagram1">
+        <EntityTypeShape EntityType="STS2Model.Attrib" Width="1.5" PointX="7.5" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="STS2Model.Bet" Width="1.5" PointX="7.5" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="STS2Model.League" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="STS2Model.Match" Width="1.5" PointX="5.25" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="STS2Model.Participation" Width="1.5" PointX="7.5" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="STS2Model.Player" Width="1.5" PointX="5.25" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="STS2Model.Team" Width="1.5" PointX="3" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="STS2Model.User" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="STS2Model.FK__Przypisan__id_me__21B6055D" ManuallyRouted="false" />
+        <AssociationConnector Association="STS2Model.FK__Przypisan__id_za__22AA2996" ManuallyRouted="false" />
+        <AssociationConnector Association="STS2Model.FK__Zaklad__id_mecz__1DE57479" ManuallyRouted="false" />
+        <AssociationConnector Association="STS2Model.FK__Zaklad__id_user__1ED998B2" ManuallyRouted="false" />
+        <AssociationConnector Association="STS2Model.FK__Druzyna__id_liga__145C0A3F" ManuallyRouted="false" />
+        <AssociationConnector Association="STS2Model.FK__Mecz__id_gosc__1A14E395" ManuallyRouted="false" />
+        <AssociationConnector Association="STS2Model.FK__Mecz__id_gosp__1B0907CE" ManuallyRouted="false" />
+        <AssociationConnector Association="STS2Model.FK__Udzial__id_mecz__276EDEB3" ManuallyRouted="false" />
+        <AssociationConnector Association="STS2Model.FK__Udzial__id_gosc__25869641" ManuallyRouted="false" />
+        <AssociationConnector Association="STS2Model.FK__Udzial__id_gosp__267ABA7A" ManuallyRouted="false" />
+        <AssociationConnector Association="STS2Model.FK__Zawodnik__id_dru__398D8EEE" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

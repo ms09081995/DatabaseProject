@@ -1,0 +1,80 @@
+﻿
+@{
+    ViewBag.Title = "MyBets";
+    Layout = "~/Views/Layouts/_Layout.cshtml";
+}
+
+    <table>
+
+        <tr>
+
+            <th colspan="2">
+                Drużyna Gospodarzy
+            </th>
+
+            <th colspan="2">
+                Drużyna Gości
+            </th>
+            <th colspan="2">
+                Wynik
+            </th>
+
+            <th colspan="2">
+
+                Minuta
+
+            </th>
+
+            <th colspan="1">
+                Kurs
+            </th>
+            <th colspan="1">
+                Wygrana
+            </th>
+            <th colspan="1">
+                Kurs na
+            </th>
+            <th colspan="2">
+                Status
+            </th>
+
+        </tr>
+@if (@ViewBag.Lista != null)
+{
+    foreach (var bet in @ViewBag.Lista)
+    {
+        <tr>            
+            <td colspan="2">
+                @Html.Action("GetFirstTeamName", "Match", new { matchid = bet.id_mecz })                
+            </td>
+            <td colspan="2">                
+                @Html.Action("GetSecondTeamName", "Match", new { matchid = bet.id_mecz })
+            </td>
+            <td colspan="2">                
+                @Html.Action("GetMatchResult", "Match", new { matchid = bet.id_mecz })
+            </td>
+            <td colspan="2">
+                @Html.Action("GetMatchMinute", "Match", new { matchid = bet.id_mecz })
+            </td>
+            <td colspan="1">
+                @Html.Action("GetMatchBet", "Match", new { matchid = bet.id_mecz })
+            </td>
+            <td colspan="1">
+                @bet.wygrana
+            </td>
+            <td colspan="1">
+            </td>
+            <td colspan="2">
+                @bet.status
+            </td>
+
+        </tr>
+
+    }
+
+}
+
+    </table>
+
+
+

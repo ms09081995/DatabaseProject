@@ -1,0 +1,109 @@
+﻿body {
+
+}
+td,th{
+    text-align:center;
+}
+th
+{
+    height:30px;
+    background-color:green;
+    color:black;
+}
+td{
+    height:30px;
+    background-color:blue;
+    color:black;
+}
+table{
+    width:100%
+}
+.MainTittlePan
+{
+    height:80px;
+    background-color:forestgreen;
+}
+.MainTittle
+{
+    height:80%;
+    margin-left:10px!important;
+    margin-right:10px!important;
+    border-radius:20px;
+    background-color:greenyellow;
+    
+}
+.MainTittle span
+{
+    vertical-align:central;
+    display:inline-block;
+    color:black;
+    width:100%!important;
+    font-size:30px!important;
+    text-align:center;
+    padding-top:10px
+}
+.MainMenuPan{
+    height:50px!important;
+    background-color:red;
+}
+
+.stsBtn
+{
+    color:yellow!important;
+    height:50px;
+    border:1px solid yellow!important;
+    border-radius:4px!important;
+    background-color:greenyellow!important;
+}
+.MainMenuPan .stsBtn
+{
+    padding:0px;
+}
+.MainMenuPan .stsBtn a{
+    display:block;
+    height:100%;
+}
+
+
+.MoneyContener,
+.BetContener{
+    height:230px;
+    width:60%;
+    border:4px solid red;
+    background-color:gray;
+    position:absolute;
+    top:30%;
+    left:20%;
+    border-radius:4px;
+}
+.MoneyTittle,
+.BetTittle
+{
+    height:40px;
+    text-align:center;
+    border-bottom:1px solid red;
+
+}
+.MoneyContent span,
+.BetContent span
+{
+    display:inline-block!important;
+    width:15%!important;
+    padding-left:10px;
+    padding-top:5px;
+}
+.MoneyContent input,.MoneyContent select,
+.BetContent input, .BetContent select
+{
+    display:inline-block!important;
+    margin-top:5px;
+    width:30%!important;
+}
+.MoneyContent .GetBetBtn,
+.BetContent .GetBetBtn{
+    width:80%;
+    margin-left:10%;
+    margin-top:10px;   
+    height:40px!important;
+     
+}

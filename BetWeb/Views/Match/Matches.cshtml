@@ -1,0 +1,161 @@
+﻿@using BetWeb.Models
+@model CurrentMatchesViewModel
+
+@{
+    ViewBag.Title = "CurrentMatches";
+    Layout = "~/Views/Layouts/_Layout.cshtml";
+}
+
+<div style="">
+    <select name="LeaguesSelect" id="LeaguesSelect" onchange='GetMatchesForLeague(this)'>
+        <option value="0" >Wybierz</option>
+        @foreach (var leagues in @ViewBag.LeaguesList)
+        {
+            if (@leagues.Value == @ViewBag.SelectedLegueId)
+            {
+                <option value="@leagues.Value" selected>@leagues.Text</option>
+            }
+            else
+            {
+                <option value="@leagues.Value">@leagues.Text</option>
+            }
+        }
+       
+
+    </select>
+</div>
+<div style="">
+    <select name="TimeSelect" id="TimeSelect" onchange='GetMatchesForLeague(this)'>
+        @if (@ViewBag.SelectedTime == "0")
+        {
+            <option value="0" selected>Trwające</option>
+        }
+        else
+        {
+            <option value="0">Trwające</option>
+        }
+        @if (@ViewBag.SelectedTime == "1")
+        {
+            <option value="1" selected>Zakończone</option>
+        }
+        else
+        {
+            <option value="1">Zakończone</option>
+        }
+        @if (@ViewBag.SelectedTime == "2")
+        {
+            <option value="2" selected>Przyszłe</option>
+        }
+        else
+        {
+            <option value="2">Przyszłe</option>
+        }  
+        
+
+
+    </select>
+</div>
+<div style="display:none" >
+    @Html.ActionLink("Mecze", "../Match/Matches", new { SelectedLegueId = "0", SelectedTime = "0" }, new { id = "LeaguesSelectBtn" })
+</div>
+
+@if (@ViewBag.Lista!=null)
+{
+        <table>
+
+            <tr>
+
+                <th colspan="3">
+
+                    Drużyna Gospodarzy
+
+                </th>
+
+                <th colspan="3">
+
+                    Drużyna Gości
+
+
+                </th>
+
+                <th colspan="2">
+
+                    Wynik
+
+                </th>
+
+                <th colspan="2">
+
+                    Minuta
+
+                </th>
+
+                <th colspan="2">
+
+                    Kurs
+
+                </th>
+            </tr>
+            
+            @foreach (var match in @ViewBag.Lista)
+            {
+                <tr>
+                    <td colspan="3">
+                        @Html.Action("GetFirstTeamName", "Match", new { matchid = match.id_mecz })
+                    </td>
+                    <td colspan="3">
+                        @Html.Action("GetSecondTeamName", "Match", new { matchid = match.id_mecz })
+                    </td>
+                    <td colspan="2">
+                        @match.bramki_gosp : @match.bramki_gosc
+                    </td>
+                    <td colspan="2">
+                        @match.minuta
+                    </td>
+                    <td colspan="2" class="GetBetBtn">
+                        @if (@match.minuta < 90)
+                        {
+                        <div class="btn btn-default stsBtn GetBetBtn" onclick="GetBetShow()">Złoż zakład</div>
+                        }
+                        else
+                        {
+                            <span>Zakończony</span>                        }
+                    </td>
+                </tr>
+
+            }
+
+
+        </table>
+}
+    <div class="BetContener" style="display:none">
+    <div class="BetTittle">Złóż zakład</div>
+    <div class="BetContent">
+        <div>
+            <span class="" > Wynik</span>
+            <select class="">
+                <option value="0">Wybierz</option>
+                <option value="1">Zwycięstwo GOSP</option>
+                <option value="2">REMIS</option>
+                <option value="2">Zwycięstwo GOŚĆ</option>
+            </select>
+            <div class=""></div>
+        </div>
+        <div>
+            <span class="">Stawka</span>
+            <input class=""/>
+            <div class=""></div>
+        </div>
+        <div>
+            <span class="">Możliwa wygrana: </span>
+            <input class="" />
+            <div class=""></div>
+        </div>
+        <div>
+            <div class="btn btn-default stsBtn GetBetBtn" onclick="">Złoż zakład</div>    
+        </div>
+        <div>
+            <div class="btn btn-default stsBtn GetBetBtn" onclick="GetBetHide()">Anuluj</div>
+        </div>
+     </div>
+</div>
