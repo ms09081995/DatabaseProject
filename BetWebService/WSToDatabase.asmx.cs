@@ -9,12 +9,12 @@ using System.Web.Services;
 
 namespace BetWebService
 {
-    
+
     [WebService(Namespace = "http://tempuri.org/")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [System.ComponentModel.ToolboxItem(false)]
-    
-    
+
+
     public class WSToDatabase : System.Web.Services.WebService
     {
         private STS2Entities context;
@@ -46,12 +46,12 @@ namespace BetWebService
         {
             if (GetUserIndex(login) > -1)
                 return false;
-          
+
             User newuser = new User();
             newuser.login = login;
             newuser.haslo = haslo;
             newuser.wiek = wiek;
-            newuser.stan_konta = 0;           
+            newuser.stan_konta = 0;
 
             context.Users.Add(newuser);
             context.SaveChanges();
@@ -76,9 +76,9 @@ namespace BetWebService
         [WebMethod]
         public string GetUsers()
         {
-            
-            List<User> li = new List<User>(); 
-            foreach( User u in context.Users)
+
+            List<User> li = new List<User>();
+            foreach (User u in context.Users)
             {
                 li.Add(u);
             }
@@ -122,7 +122,7 @@ namespace BetWebService
             return JsonConvert.SerializeObject(li, Formatting.Indented);
         }
         [WebMethod]
-        public string GetMatchesByLeague(int leagueID, int time =0)
+        public string GetMatchesByLeague(int leagueID, int time = 0)
         {
             if (leagueID == 0)
                 return null;
@@ -130,7 +130,7 @@ namespace BetWebService
 
             foreach (Match m in context.Matches)
             {
-                if ((time == 1 && m.minuta == 0) || (time == 0 && m.minuta < 90&& m.minuta>0) || (time == 2 && m.minuta > 90))
+                if ((time == 1 && m.minuta == 0) || (time == 0 && m.minuta < 90 && m.minuta > 0) || (time == 2 && m.minuta > 90))
                 {
                     if (leagueID == GetMatchLeague(Convert.ToInt32(m.id_gosp)).id_liga)
                         li.Add(m);
@@ -156,8 +156,8 @@ namespace BetWebService
         [WebMethod]
         public string GetUserMoney(string login)
         {
-            var u = GetUser(login);            
-            if (u==null)
+            var u = GetUser(login);
+            if (u == null)
                 return null;
             UpdateUserMoney(u);
             return u.stan_konta.ToString();
@@ -170,7 +170,8 @@ namespace BetWebService
 
             if (u == null)
                 return;
-            u.stan_konta += money;           
+            u.stan_konta += money;
+            context.SaveChanges();
         }
         [WebMethod]
         public void SendUserMoney(string login, int money)
@@ -179,8 +180,9 @@ namespace BetWebService
 
             if (u == null)
                 return;
-            if(u.stan_konta>money)
+            if (u.stan_konta > money)
                 u.stan_konta -= money;
+            context.SaveChanges();
         }
 
         [WebMethod]
@@ -198,7 +200,7 @@ namespace BetWebService
                     ReferenceLoopHandling = ReferenceLoopHandling.Ignore
                 });
             }
-           
+
         }
         [WebMethod]
         public string GetUserBetsByStatus(string login, string status)
@@ -210,9 +212,9 @@ namespace BetWebService
             else
             {
                 var li = GetUserBets(u);
-                foreach(Bet b in li)
+                foreach (Bet b in li)
                 {
-                    if(b.status!=status)
+                    if (b.status != status)
                     {
                         li.Remove(b);
                     }
@@ -224,18 +226,19 @@ namespace BetWebService
             }
         }
 
-        [WebMethod] 
-        public bool AddBetForUser(string login, int money, int matchid, int teamid)
+        [WebMethod]
+        public bool AddBetForUser(string login, int money, int matchid, int typ)
         {
             var u = GetUser(login);
             if (u == null)
                 return false;
-            if(u.stan_konta<money)
+            if (u.stan_konta < money)
             {
                 return false;
             }
+            u.stan_konta -= money;
             var match = GetMatchById(matchid);
-            if(match==null)
+            if (match == null)
             {
                 return false;
             }
@@ -248,35 +251,81 @@ namespace BetWebService
             newbet.Match = match;
             newbet.User = u;
             newbet.wygrana = winsum;
+            newbet.typ = typ;
+
 
             context.Bets.Add(newbet);
             context.SaveChanges();
 
-            return true;               
+            return true;
 
         }
 
         [WebMethod]
         public void UpdateMatchMinute()
         {
-            foreach(Match m in context.Matches)
+            foreach (Match m in context.Matches)
             {
-                if(m.minuta<90)
+                if (m.minuta < 90)
                 {
                     m.minuta += 1;
                 }
             }
             context.SaveChanges();
-
         }
         [WebMethod]
-        public  string GetTeamById(int teamid)
+        public void UpdateBetStatus()
+        {
+            foreach(Match m in context.Matches)
+            {
+                if(m.minuta==90)
+                {
+                    foreach(Bet b in context.Bets)
+                    {
+                        if(b.id_mecz==m.id_mecz)
+                        {
+                            if(b.typ==0)
+                            {
+                                if(m.bramki_gosc==m.bramki_gosp)
+                                {
+                                    b.status = "Do wyplaty";
+                                    
+                                }
+                            }
+                            if (b.typ == 1)
+                            {
+                                if (m.bramki_gosc < m.bramki_gosp)
+                                {
+                                    b.status = "Do wyplaty";
+                                   
+                                }
+                            }
+                            if (b.typ == 2)
+                            {
+                                if (m.bramki_gosc > m.bramki_gosp)
+                                {
+                                    b.status = "Do wyplaty";
+
+                                    
+                                }
+                            }
+                            if(b.status== "W toku")
+                                b.status = "Przegrany";
+                        }
+                    }
+                    
+                }
+            }
+            context.SaveChanges();
+        }
+        [WebMethod]
+        public string GetTeamById(int teamid)
         {
             return JsonConvert.SerializeObject(context.Teams.SingleOrDefault(team => team.id_druz == teamid), Formatting.Indented, new JsonSerializerSettings
             {
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
             });
-            
+
         }
         [WebMethod]
         public string GetMatcheById(int matchid)
@@ -286,6 +335,21 @@ namespace BetWebService
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
             });
 
+        }
+        [WebMethod]
+        public bool AddMatch(int kurs, int id_gosc, int id_gosp, DateTime data, int bramki_gosc, int bramki_gosp, int minuta)
+        {
+            Match m = new Match();
+            m.kurs = kurs;
+            m.id_gosc = id_gosc;
+            m.id_gosp = id_gosp;
+            m.data = data;
+            m.bramki_gosc = bramki_gosc;
+            m.bramki_gosp = bramki_gosp;
+            m.minuta = minuta;
+            context.Matches.Add(m);
+            context.SaveChanges();
+            return true;
         }
 
 
@@ -320,9 +384,11 @@ namespace BetWebService
             {
                 foreach (Bet b in bets)
                 {
-                    b.status = "Do wyplaty";
-                    user.stan_konta += b.wygrana;
-                    b.status = "Wyplacony";
+                    if (b.status == "Do wyplaty")
+                    {
+                        user.stan_konta += b.wygrana;
+                        b.status = "Wyplacony";
+                    }
                 }
             }
             context.SaveChanges();
@@ -330,10 +396,10 @@ namespace BetWebService
 
         private List<Bet> GetUserBets(User user)
         {
-            List<Bet> bets = new List<Bet>();            
-            foreach(Bet b in context.Bets)
+            List<Bet> bets = new List<Bet>();
+            foreach (Bet b in context.Bets)
             {
-                if(b.id_user==user.id_user)
+                if (b.id_user == user.id_user)
                 {
                     bets.Add(b);
                 }

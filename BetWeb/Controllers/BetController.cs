@@ -19,9 +19,12 @@ namespace BetWeb.Controllers
         {
             WSToDatabase ws = new WSToDatabase();
             ViewBag.Lista = null;
-            var l1 = JsonConvert.DeserializeObject<List<Models.DataBaseModel.Bet>>(ws.GetUserBets("admin"));
-            ViewBag.Lista = l1;
 
+            
+                var l1 = JsonConvert.DeserializeObject<List<Models.DataBaseModel.Bet>>(ws.GetUserBets(Session["UserLogin"].ToString()));
+
+                ViewBag.Lista = l1;
+           
             return View();
         }
     }

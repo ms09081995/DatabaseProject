@@ -23,6 +23,7 @@
           <Property Name="id_mecz" Type="int" />
           <Property Name="id_user" Type="int" />
           <Property Name="status" Type="char" MaxLength="255" />
+          <Property Name="typ" Type="int" />
         </EntityType>
         <EntityType Name="League">
           <Key>
@@ -300,6 +301,7 @@
           <NavigationProperty Name="Match" Relationship="Self.FK__Zaklad__id_mecz__1DE57479" FromRole="Bet" ToRole="Match" />
           <NavigationProperty Name="User" Relationship="Self.FK__Zaklad__id_user__1ED998B2" FromRole="Bet" ToRole="User" />
           <Property Name="status" Type="String" MaxLength="255" FixedLength="true" Unicode="false" />
+          <Property Name="typ" Type="Int32" />
         </EntityType>
         <EntityType Name="League">
           <Key>
@@ -585,6 +587,7 @@
           <EntitySetMapping Name="Bets">
             <EntityTypeMapping TypeName="STS2Model.Bet">
               <MappingFragment StoreEntitySet="Bet">
+                <ScalarProperty Name="typ" ColumnName="typ" />
                 <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="id_zaklad" ColumnName="id_zaklad" />
                 <ScalarProperty Name="kwota" ColumnName="kwota" />

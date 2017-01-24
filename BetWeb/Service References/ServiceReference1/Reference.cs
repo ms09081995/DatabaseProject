@@ -126,6 +126,12 @@ namespace BetWeb.ServiceReference1 {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/UpdateMatchMinute", ReplyAction="*")]
         System.Threading.Tasks.Task UpdateMatchMinuteAsync();
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/UpdateBetStatus", ReplyAction="*")]
+        void UpdateBetStatus();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/UpdateBetStatus", ReplyAction="*")]
+        System.Threading.Tasks.Task UpdateBetStatusAsync();
+        
         // CODEGEN: Generating message contract since element name GetTeamByIdResult from namespace http://tempuri.org/ is not marked nillable
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetTeamById", ReplyAction="*")]
         BetWeb.ServiceReference1.GetTeamByIdResponse GetTeamById(BetWeb.ServiceReference1.GetTeamByIdRequest request);
@@ -139,6 +145,12 @@ namespace BetWeb.ServiceReference1 {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetMatcheById", ReplyAction="*")]
         System.Threading.Tasks.Task<BetWeb.ServiceReference1.GetMatcheByIdResponse> GetMatcheByIdAsync(BetWeb.ServiceReference1.GetMatcheByIdRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/AddMatch", ReplyAction="*")]
+        bool AddMatch(int kurs, int id_gosc, int id_gosp, System.DateTime data, int bramki_gosc, int bramki_gosp, int minuta);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/AddMatch", ReplyAction="*")]
+        System.Threading.Tasks.Task<bool> AddMatchAsync(int kurs, int id_gosc, int id_gosp, System.DateTime data, int bramki_gosc, int bramki_gosp, int minuta);
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -1105,16 +1117,16 @@ namespace BetWeb.ServiceReference1 {
         public int matchid;
         
         [System.Runtime.Serialization.DataMemberAttribute(Order=3)]
-        public int teamid;
+        public int typ;
         
         public AddBetForUserRequestBody() {
         }
         
-        public AddBetForUserRequestBody(string login, int money, int matchid, int teamid) {
+        public AddBetForUserRequestBody(string login, int money, int matchid, int typ) {
             this.login = login;
             this.money = money;
             this.matchid = matchid;
-            this.teamid = teamid;
+            this.typ = typ;
         }
     }
     
@@ -1672,13 +1684,13 @@ namespace BetWeb.ServiceReference1 {
             return base.Channel.AddBetForUser(request);
         }
         
-        public bool AddBetForUser(string login, int money, int matchid, int teamid) {
+        public bool AddBetForUser(string login, int money, int matchid, int typ) {
             BetWeb.ServiceReference1.AddBetForUserRequest inValue = new BetWeb.ServiceReference1.AddBetForUserRequest();
             inValue.Body = new BetWeb.ServiceReference1.AddBetForUserRequestBody();
             inValue.Body.login = login;
             inValue.Body.money = money;
             inValue.Body.matchid = matchid;
-            inValue.Body.teamid = teamid;
+            inValue.Body.typ = typ;
             BetWeb.ServiceReference1.AddBetForUserResponse retVal = ((BetWeb.ServiceReference1.WSToDatabaseSoap)(this)).AddBetForUser(inValue);
             return retVal.Body.AddBetForUserResult;
         }
@@ -1688,13 +1700,13 @@ namespace BetWeb.ServiceReference1 {
             return base.Channel.AddBetForUserAsync(request);
         }
         
-        public System.Threading.Tasks.Task<BetWeb.ServiceReference1.AddBetForUserResponse> AddBetForUserAsync(string login, int money, int matchid, int teamid) {
+        public System.Threading.Tasks.Task<BetWeb.ServiceReference1.AddBetForUserResponse> AddBetForUserAsync(string login, int money, int matchid, int typ) {
             BetWeb.ServiceReference1.AddBetForUserRequest inValue = new BetWeb.ServiceReference1.AddBetForUserRequest();
             inValue.Body = new BetWeb.ServiceReference1.AddBetForUserRequestBody();
             inValue.Body.login = login;
             inValue.Body.money = money;
             inValue.Body.matchid = matchid;
-            inValue.Body.teamid = teamid;
+            inValue.Body.typ = typ;
             return ((BetWeb.ServiceReference1.WSToDatabaseSoap)(this)).AddBetForUserAsync(inValue);
         }
         
@@ -1704,6 +1716,14 @@ namespace BetWeb.ServiceReference1 {
         
         public System.Threading.Tasks.Task UpdateMatchMinuteAsync() {
             return base.Channel.UpdateMatchMinuteAsync();
+        }
+        
+        public void UpdateBetStatus() {
+            base.Channel.UpdateBetStatus();
+        }
+        
+        public System.Threading.Tasks.Task UpdateBetStatusAsync() {
+            return base.Channel.UpdateBetStatusAsync();
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -1754,6 +1774,14 @@ namespace BetWeb.ServiceReference1 {
             inValue.Body = new BetWeb.ServiceReference1.GetMatcheByIdRequestBody();
             inValue.Body.matchid = matchid;
             return ((BetWeb.ServiceReference1.WSToDatabaseSoap)(this)).GetMatcheByIdAsync(inValue);
+        }
+        
+        public bool AddMatch(int kurs, int id_gosc, int id_gosp, System.DateTime data, int bramki_gosc, int bramki_gosp, int minuta) {
+            return base.Channel.AddMatch(kurs, id_gosc, id_gosp, data, bramki_gosc, bramki_gosp, minuta);
+        }
+        
+        public System.Threading.Tasks.Task<bool> AddMatchAsync(int kurs, int id_gosc, int id_gosp, System.DateTime data, int bramki_gosc, int bramki_gosp, int minuta) {
+            return base.Channel.AddMatchAsync(kurs, id_gosc, id_gosp, data, bramki_gosc, bramki_gosp, minuta);
         }
     }
 }

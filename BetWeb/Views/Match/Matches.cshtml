@@ -115,7 +115,7 @@
                     <td colspan="2" class="GetBetBtn">
                         @if (@match.minuta < 90)
                         {
-                        <div class="btn btn-default stsBtn GetBetBtn" onclick="GetBetShow()">Złoż zakład</div>
+                        <div id ="@match.id_mecz"class="btn btn-default stsBtn GetBetBtn" onclick="GetBetShow(this) ">Złoż zakład</div>
                         }
                         else
                         {
@@ -132,18 +132,21 @@
     <div class="BetTittle">Złóż zakład</div>
     <div class="BetContent">
         <div>
+            <div style="display:none">
+                <input id="BetMatchId" />
+            </div>
             <span class="" > Wynik</span>
-            <select class="">
-                <option value="0">Wybierz</option>
+            <select class="" id="SelectedTypId">
+                <option value="-1">Wybierz</option>
                 <option value="1">Zwycięstwo GOSP</option>
-                <option value="2">REMIS</option>
+                <option value="0">REMIS</option>
                 <option value="2">Zwycięstwo GOŚĆ</option>
             </select>
             <div class=""></div>
         </div>
         <div>
             <span class="">Stawka</span>
-            <input class=""/>
+            <input id="MoneyToBet"/>
             <div class=""></div>
         </div>
         <div>
@@ -152,10 +155,13 @@
             <div class=""></div>
         </div>
         <div>
-            <div class="btn btn-default stsBtn GetBetBtn" onclick="">Złoż zakład</div>    
+            <div class="btn btn-default stsBtn GetBetBtn" onclick="AddBet(this)">Złoż zakład</div>    
         </div>
         <div>
             <div class="btn btn-default stsBtn GetBetBtn" onclick="GetBetHide()">Anuluj</div>
+        </div>
+        <div style="display:none">
+            @Html.ActionLink("Mecze", "../Match/AddBetForUser", new { money = "0", matchid = "0", typ = "0" }, new { id = "AddBetBtn" })
         </div>
      </div>
 </div>

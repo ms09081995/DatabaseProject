@@ -85,22 +85,26 @@
         <div class="MoneyContent">
             <div>
                 <span class="">Kwota</span>
-                <input class="" />
+                <input id="MoneyInput" />
                 <div class=""></div>
             </div>
             <div class="MoneyGetDivs">
                 <span class="">Numer konta: </span>
-                <input class="" />
+                <input id="AccountNumberInput" />
                 <div class=""></div>
             </div>
             <div class="MoneySetDivs">
-                <div class="btn btn-default stsBtn GetBetBtn" onclick="">Wpłać</div>
+                <div class="btn btn-default stsBtn GetBetBtn" onclick="SetMoney(this)">Wpłać</div>
             </div>
             <div class="MoneyGetDivs">
-                <div class="btn btn-default stsBtn GetBetBtn" onclick="">Wypłać</div>
+                <div class="btn btn-default stsBtn GetBetBtn" onclick="SendMoney(obj)">Wypłać</div>
             </div>
             <div>
                 <div class="btn btn-default stsBtn GetBetBtn" onclick="GetMoneyHide()">Anuluj</div>
+            </div>
+            <div style="display:none">
+                @Html.ActionLink("Mecze", "../Account/SetCurrentUserMoney", new { money ="12" }, new { id = "MoneySetBtn" })
+                @Html.ActionLink("Mecze", "../Account/SendCurrentUserMoney", new { money ="12" }, new { id = "MoneySendBtn" })
             </div>
         </div>
 

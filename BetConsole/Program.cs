@@ -16,6 +16,8 @@ namespace BetConsole
             while (true)
             {
                 ws.UpdateMatchMinute();
+                ws.UpdateBetStatus();
+                
                 Console.WriteLine("UpdateMinute");
 
                 Console.ReadKey();

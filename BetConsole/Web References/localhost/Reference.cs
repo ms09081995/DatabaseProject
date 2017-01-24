@@ -51,6 +51,8 @@ namespace BetConsole.localhost {
         
         private System.Threading.SendOrPostCallback SetUserMoneyOperationCompleted;
         
+        private System.Threading.SendOrPostCallback SendUserMoneyOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetUserBetsOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetUserBetsByStatusOperationCompleted;
@@ -58,6 +60,14 @@ namespace BetConsole.localhost {
         private System.Threading.SendOrPostCallback AddBetForUserOperationCompleted;
         
         private System.Threading.SendOrPostCallback UpdateMatchMinuteOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback UpdateBetStatusOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetTeamByIdOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetMatcheByIdOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback AddMatchOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
         
@@ -131,6 +141,9 @@ namespace BetConsole.localhost {
         public event SetUserMoneyCompletedEventHandler SetUserMoneyCompleted;
         
         /// <remarks/>
+        public event SendUserMoneyCompletedEventHandler SendUserMoneyCompleted;
+        
+        /// <remarks/>
         public event GetUserBetsCompletedEventHandler GetUserBetsCompleted;
         
         /// <remarks/>
@@ -141,6 +154,18 @@ namespace BetConsole.localhost {
         
         /// <remarks/>
         public event UpdateMatchMinuteCompletedEventHandler UpdateMatchMinuteCompleted;
+        
+        /// <remarks/>
+        public event UpdateBetStatusCompletedEventHandler UpdateBetStatusCompleted;
+        
+        /// <remarks/>
+        public event GetTeamByIdCompletedEventHandler GetTeamByIdCompleted;
+        
+        /// <remarks/>
+        public event GetMatcheByIdCompletedEventHandler GetMatcheByIdCompleted;
+        
+        /// <remarks/>
+        public event AddMatchCompletedEventHandler AddMatchCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/Login", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -461,6 +486,36 @@ namespace BetConsole.localhost {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/SendUserMoney", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void SendUserMoney(string login, int money) {
+            this.Invoke("SendUserMoney", new object[] {
+                        login,
+                        money});
+        }
+        
+        /// <remarks/>
+        public void SendUserMoneyAsync(string login, int money) {
+            this.SendUserMoneyAsync(login, money, null);
+        }
+        
+        /// <remarks/>
+        public void SendUserMoneyAsync(string login, int money, object userState) {
+            if ((this.SendUserMoneyOperationCompleted == null)) {
+                this.SendUserMoneyOperationCompleted = new System.Threading.SendOrPostCallback(this.OnSendUserMoneyOperationCompleted);
+            }
+            this.InvokeAsync("SendUserMoney", new object[] {
+                        login,
+                        money}, this.SendUserMoneyOperationCompleted, userState);
+        }
+        
+        private void OnSendUserMoneyOperationCompleted(object arg) {
+            if ((this.SendUserMoneyCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.SendUserMoneyCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetUserBets", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string GetUserBets(string login) {
             object[] results = this.Invoke("GetUserBets", new object[] {
@@ -522,22 +577,22 @@ namespace BetConsole.localhost {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/AddBetForUser", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool AddBetForUser(string login, int money, int matchid, int teamid) {
+        public bool AddBetForUser(string login, int money, int matchid, int typ) {
             object[] results = this.Invoke("AddBetForUser", new object[] {
                         login,
                         money,
                         matchid,
-                        teamid});
+                        typ});
             return ((bool)(results[0]));
         }
         
         /// <remarks/>
-        public void AddBetForUserAsync(string login, int money, int matchid, int teamid) {
-            this.AddBetForUserAsync(login, money, matchid, teamid, null);
+        public void AddBetForUserAsync(string login, int money, int matchid, int typ) {
+            this.AddBetForUserAsync(login, money, matchid, typ, null);
         }
         
         /// <remarks/>
-        public void AddBetForUserAsync(string login, int money, int matchid, int teamid, object userState) {
+        public void AddBetForUserAsync(string login, int money, int matchid, int typ, object userState) {
             if ((this.AddBetForUserOperationCompleted == null)) {
                 this.AddBetForUserOperationCompleted = new System.Threading.SendOrPostCallback(this.OnAddBetForUserOperationCompleted);
             }
@@ -545,7 +600,7 @@ namespace BetConsole.localhost {
                         login,
                         money,
                         matchid,
-                        teamid}, this.AddBetForUserOperationCompleted, userState);
+                        typ}, this.AddBetForUserOperationCompleted, userState);
         }
         
         private void OnAddBetForUserOperationCompleted(object arg) {
@@ -578,6 +633,131 @@ namespace BetConsole.localhost {
             if ((this.UpdateMatchMinuteCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.UpdateMatchMinuteCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/UpdateBetStatus", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void UpdateBetStatus() {
+            this.Invoke("UpdateBetStatus", new object[0]);
+        }
+        
+        /// <remarks/>
+        public void UpdateBetStatusAsync() {
+            this.UpdateBetStatusAsync(null);
+        }
+        
+        /// <remarks/>
+        public void UpdateBetStatusAsync(object userState) {
+            if ((this.UpdateBetStatusOperationCompleted == null)) {
+                this.UpdateBetStatusOperationCompleted = new System.Threading.SendOrPostCallback(this.OnUpdateBetStatusOperationCompleted);
+            }
+            this.InvokeAsync("UpdateBetStatus", new object[0], this.UpdateBetStatusOperationCompleted, userState);
+        }
+        
+        private void OnUpdateBetStatusOperationCompleted(object arg) {
+            if ((this.UpdateBetStatusCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.UpdateBetStatusCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetTeamById", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string GetTeamById(int teamid) {
+            object[] results = this.Invoke("GetTeamById", new object[] {
+                        teamid});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetTeamByIdAsync(int teamid) {
+            this.GetTeamByIdAsync(teamid, null);
+        }
+        
+        /// <remarks/>
+        public void GetTeamByIdAsync(int teamid, object userState) {
+            if ((this.GetTeamByIdOperationCompleted == null)) {
+                this.GetTeamByIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetTeamByIdOperationCompleted);
+            }
+            this.InvokeAsync("GetTeamById", new object[] {
+                        teamid}, this.GetTeamByIdOperationCompleted, userState);
+        }
+        
+        private void OnGetTeamByIdOperationCompleted(object arg) {
+            if ((this.GetTeamByIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetTeamByIdCompleted(this, new GetTeamByIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetMatcheById", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string GetMatcheById(int matchid) {
+            object[] results = this.Invoke("GetMatcheById", new object[] {
+                        matchid});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetMatcheByIdAsync(int matchid) {
+            this.GetMatcheByIdAsync(matchid, null);
+        }
+        
+        /// <remarks/>
+        public void GetMatcheByIdAsync(int matchid, object userState) {
+            if ((this.GetMatcheByIdOperationCompleted == null)) {
+                this.GetMatcheByIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetMatcheByIdOperationCompleted);
+            }
+            this.InvokeAsync("GetMatcheById", new object[] {
+                        matchid}, this.GetMatcheByIdOperationCompleted, userState);
+        }
+        
+        private void OnGetMatcheByIdOperationCompleted(object arg) {
+            if ((this.GetMatcheByIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetMatcheByIdCompleted(this, new GetMatcheByIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/AddMatch", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool AddMatch(int kurs, int id_gosc, int id_gosp, System.DateTime data, int bramki_gosc, int bramki_gosp, int minuta) {
+            object[] results = this.Invoke("AddMatch", new object[] {
+                        kurs,
+                        id_gosc,
+                        id_gosp,
+                        data,
+                        bramki_gosc,
+                        bramki_gosp,
+                        minuta});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void AddMatchAsync(int kurs, int id_gosc, int id_gosp, System.DateTime data, int bramki_gosc, int bramki_gosp, int minuta) {
+            this.AddMatchAsync(kurs, id_gosc, id_gosp, data, bramki_gosc, bramki_gosp, minuta, null);
+        }
+        
+        /// <remarks/>
+        public void AddMatchAsync(int kurs, int id_gosc, int id_gosp, System.DateTime data, int bramki_gosc, int bramki_gosp, int minuta, object userState) {
+            if ((this.AddMatchOperationCompleted == null)) {
+                this.AddMatchOperationCompleted = new System.Threading.SendOrPostCallback(this.OnAddMatchOperationCompleted);
+            }
+            this.InvokeAsync("AddMatch", new object[] {
+                        kurs,
+                        id_gosc,
+                        id_gosp,
+                        data,
+                        bramki_gosc,
+                        bramki_gosp,
+                        minuta}, this.AddMatchOperationCompleted, userState);
+        }
+        
+        private void OnAddMatchOperationCompleted(object arg) {
+            if ((this.AddMatchCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.AddMatchCompleted(this, new AddMatchCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -866,6 +1046,10 @@ namespace BetConsole.localhost {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    public delegate void SendUserMoneyCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
     public delegate void GetUserBetsCompletedEventHandler(object sender, GetUserBetsCompletedEventArgs e);
     
     /// <remarks/>
@@ -945,6 +1129,88 @@ namespace BetConsole.localhost {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
     public delegate void UpdateMatchMinuteCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    public delegate void UpdateBetStatusCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    public delegate void GetTeamByIdCompletedEventHandler(object sender, GetTeamByIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetTeamByIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetTeamByIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    public delegate void GetMatcheByIdCompletedEventHandler(object sender, GetMatcheByIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetMatcheByIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetMatcheByIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    public delegate void AddMatchCompletedEventHandler(object sender, AddMatchCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class AddMatchCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal AddMatchCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
 }
 
 #pragma warning restore 1591

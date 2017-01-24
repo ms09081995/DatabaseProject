@@ -258,6 +258,7 @@
     <None Include="Service References\ServiceReference1\WSToDatabase.wsdl" />
     <Content Include="Views\Match\Matches.cshtml" />
     <Content Include="Views\Bet\MyBets.cshtml" />
+    <Content Include="Views\Match\AddBetForUser.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

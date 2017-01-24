@@ -16,8 +16,12 @@ namespace BetWeb.Controllers
         {
             return View();
         }
-        public ActionResult Matches(string SelectedLegueId, string SelectedTime)
+        public ActionResult Matches(string SelectedLegueId="0", string SelectedTime="0")
         {
+            if (SelectedLegueId == "")
+                SelectedLegueId = "1";
+            if (SelectedTime == "")
+                SelectedTime = "1";
             WSToDatabase ws = new WSToDatabase();
             ViewBag.LeaguesList=CreateLeagueSelect(ws);
             ViewBag.Lista = null;
@@ -30,6 +34,17 @@ namespace BetWeb.Controllers
             ViewBag.SelectedTime = SelectedTime;
             return View();
         }
+        public ActionResult AddBetForUser(string money, string matchid, string typ)
+        {
+
+            WSToDatabase ws = new WSToDatabase();
+            if (Session["UserLogin"] != null)
+            {
+                if (money != "")
+                    ws.AddBetForUser(Session["UserLogin"].ToString(), Convert.ToInt32(money), Convert.ToInt32(matchid), Convert.ToInt32(typ));
+            }
+            return View();
+        }
 
         private List<SelectListItem> CreateLeagueSelect(WSToDatabase ws)
         {
@@ -40,6 +55,7 @@ namespace BetWeb.Controllers
             }            
             return li;
         }
+        
         public ActionResult GetFirstTeamName( string matchid)
         {
             WSToDatabase ws = new WSToDatabase();

@@ -58,14 +58,12 @@ namespace BetWeb.Controllers
             WSToDatabase ws = new WSToDatabase();
             if (Session["UserLogin"] != null)
             {
-                ws.SetUserMoney(Session["UserLogin"].ToString(), Convert.ToInt32(money));
-                return null;
+                if(money!="")
+                    ws.SetUserMoney(Session["UserLogin"].ToString(), Convert.ToInt32(money));
+               
                 
             }
-            else
-            {
-                return null;
-            }
+            return View("Login_Success");
         }
 
         public ActionResult SendCurrentUserMoney(string money)
@@ -73,14 +71,13 @@ namespace BetWeb.Controllers
             WSToDatabase ws = new WSToDatabase();
             if (Session["UserLogin"] != null)
             {
-                ws.SendUserMoney(Session["UserLogin"].ToString(), Convert.ToInt32(money));
-                return null;
+                if (money != "")
+                    ws.SendUserMoney(Session["UserLogin"].ToString(), Convert.ToInt32(money));
+                
 
             }
-            else
-            {
-                return null;
-            }
+            return View("Login_Success");
+
         }
         #endregion
 

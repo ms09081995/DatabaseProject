@@ -26,6 +26,7 @@ namespace BetWebService
         public Nullable<int> id_mecz { get; set; }
         public Nullable<int> id_user { get; set; }
         public string status { get; set; }
+        public Nullable<int> typ { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Attrib> Attribs { get; set; }

@@ -183,7 +183,7 @@
             <s:element minOccurs="0" maxOccurs="1" name="login" type="s:string" />
             <s:element minOccurs="1" maxOccurs="1" name="money" type="s:int" />
             <s:element minOccurs="1" maxOccurs="1" name="matchid" type="s:int" />
-            <s:element minOccurs="1" maxOccurs="1" name="teamid" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="typ" type="s:int" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -198,6 +198,12 @@
         <s:complexType />
       </s:element>
       <s:element name="UpdateMatchMinuteResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="UpdateBetStatus">
+        <s:complexType />
+      </s:element>
+      <s:element name="UpdateBetStatusResponse">
         <s:complexType />
       </s:element>
       <s:element name="GetTeamById">
@@ -225,6 +231,26 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="GetMatcheByIdResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddMatch">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="kurs" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="id_gosc" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="id_gosp" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="data" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="bramki_gosc" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="bramki_gosp" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="minuta" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddMatchResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddMatchResult" type="s:boolean" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -326,6 +352,12 @@
   <wsdl:message name="UpdateMatchMinuteSoapOut">
     <wsdl:part name="parameters" element="tns:UpdateMatchMinuteResponse" />
   </wsdl:message>
+  <wsdl:message name="UpdateBetStatusSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateBetStatus" />
+  </wsdl:message>
+  <wsdl:message name="UpdateBetStatusSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateBetStatusResponse" />
+  </wsdl:message>
   <wsdl:message name="GetTeamByIdSoapIn">
     <wsdl:part name="parameters" element="tns:GetTeamById" />
   </wsdl:message>
@@ -337,6 +369,12 @@
   </wsdl:message>
   <wsdl:message name="GetMatcheByIdSoapOut">
     <wsdl:part name="parameters" element="tns:GetMatcheByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddMatchSoapIn">
+    <wsdl:part name="parameters" element="tns:AddMatch" />
+  </wsdl:message>
+  <wsdl:message name="AddMatchSoapOut">
+    <wsdl:part name="parameters" element="tns:AddMatchResponse" />
   </wsdl:message>
   <wsdl:portType name="WSToDatabaseSoap">
     <wsdl:operation name="Login">
@@ -403,6 +441,10 @@
       <wsdl:input message="tns:UpdateMatchMinuteSoapIn" />
       <wsdl:output message="tns:UpdateMatchMinuteSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="UpdateBetStatus">
+      <wsdl:input message="tns:UpdateBetStatusSoapIn" />
+      <wsdl:output message="tns:UpdateBetStatusSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="GetTeamById">
       <wsdl:input message="tns:GetTeamByIdSoapIn" />
       <wsdl:output message="tns:GetTeamByIdSoapOut" />
@@ -410,6 +452,10 @@
     <wsdl:operation name="GetMatcheById">
       <wsdl:input message="tns:GetMatcheByIdSoapIn" />
       <wsdl:output message="tns:GetMatcheByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddMatch">
+      <wsdl:input message="tns:AddMatchSoapIn" />
+      <wsdl:output message="tns:AddMatchSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WSToDatabaseSoap" type="tns:WSToDatabaseSoap">
@@ -558,6 +604,15 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="UpdateBetStatus">
+      <soap:operation soapAction="http://tempuri.org/UpdateBetStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetTeamById">
       <soap:operation soapAction="http://tempuri.org/GetTeamById" style="document" />
       <wsdl:input>
@@ -569,6 +624,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetMatcheById">
       <soap:operation soapAction="http://tempuri.org/GetMatcheById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddMatch">
+      <soap:operation soapAction="http://tempuri.org/AddMatch" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -723,6 +787,15 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="UpdateBetStatus">
+      <soap12:operation soapAction="http://tempuri.org/UpdateBetStatus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetTeamById">
       <soap12:operation soapAction="http://tempuri.org/GetTeamById" style="document" />
       <wsdl:input>
@@ -734,6 +807,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetMatcheById">
       <soap12:operation soapAction="http://tempuri.org/GetMatcheById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddMatch">
+      <soap12:operation soapAction="http://tempuri.org/AddMatch" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
