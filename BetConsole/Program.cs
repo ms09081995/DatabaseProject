@@ -11,8 +11,9 @@ namespace BetConsole
     {
         static void Main(string[] args)
         {
+            Console.ReadKey();
             var ws = new WSToDatabase();
-
+            
             while (true)
             {
                 ws.UpdateMatchMinute();

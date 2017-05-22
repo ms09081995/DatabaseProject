@@ -246,9 +246,6 @@
   <ItemGroup>
     <Content Include="Views\web.config" />
     <Content Include="packages.config" />
-    <Content Include="ApplicationInsights.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="scripts\jquery-1.9.1.min.map" />
     <Content Include="Views\Layouts\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />

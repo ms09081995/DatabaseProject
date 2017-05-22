@@ -44,9 +44,9 @@ namespace BetWebService
         [WebMethod]
         public bool AddNewUser(string login, string haslo, int wiek)
         {
-            if (GetUserIndex(login) > -1)
+            /*if (GetUserIndex(login) > -1)
                 return false;
-
+                */
             User newuser = new User();
             newuser.login = login;
             newuser.haslo = haslo;
