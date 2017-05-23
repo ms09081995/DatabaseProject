@@ -4,41 +4,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <TextView
-        android:text="Login"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Doładuj konto"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textView1" />
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/editTextLogin" />
     <TextView
-        android:text="Hasło"
+        android:text="Wpisz kwote"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textView2" />
-    <EditText
+  <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editTextPassword" />
+        android:id="@+id/editTextMoney" />
     <Button
-        android:text="Zaloguj się"
+        android:text="Wpłać"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/buttonLogIn" />
-    <TextView
-        android:text="Błędny login lub hasło"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/holo_red_light"
-        android:id="@+id/textViewLoginError" />
+        android:id="@+id/buttonAddMoney" />
   <Button
     android:text="Wstecz"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/buttonBack" />
-
 </LinearLayout>

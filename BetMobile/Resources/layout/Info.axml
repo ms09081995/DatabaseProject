@@ -4,41 +4,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <TextView
-        android:text="Login"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Informacje o koncie"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textView1" />
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/editTextLogin" />
     <TextView
-        android:text="Hasło"
+        android:text="Nazwa użytkownika: "
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView2" />
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/editTextPassword" />
-    <Button
-        android:text="Zaloguj się"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/buttonLogIn" />
+        android:id="@+id/textViewLogin" />
     <TextView
-        android:text="Błędny login lub hasło"
-        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Stan konta: "
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/holo_red_light"
-        android:id="@+id/textViewLoginError" />
+        android:id="@+id/textViewMoney" />
+    <Button
+        android:text="Doładuj konto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonToAddMoney" />
+    <Button
+        android:text="Wypłać"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonToGetMoney" />
   <Button
-    android:text="Wstecz"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/buttonBack" />
-
+   android:text="Wstecz"
+   android:layout_width="match_parent"
+   android:layout_height="wrap_content"
+   android:id="@+id/buttonBack" />
 </LinearLayout>

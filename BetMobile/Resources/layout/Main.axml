@@ -15,30 +15,35 @@
         android:layout_height="wrap_content"
         android:id="@+id/buttonToRegister" />
     <Button
-        android:text="Button"
+        android:text="Mecze"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/button1" />
+        android:id="@+id/buttonToMatches" />
     <Button
-        android:text="Button"
+        android:text="Moje zakłady"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/button2" />
+        android:id="@+id/buttonToBets" />
     <Button
-        android:text="Button"
+        android:text="Informacje o koncie"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/button3" />
+        android:id="@+id/buttonToInfo" />
+  <Button
+        android:text="Wyloguj"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonLogout" />
     <Button
-        android:text="Button"
+        android:text="Zamknij"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/button4" />
+        android:id="@+id/buttonClose" />
     <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
         android:id="@+id/adMobBanner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        ads:adSize="BANNER"                                      
+        ads:adSize="BANNER"
         ads:adUnitId="ca-app-pub-6400441647217164/8546088533"
         android:layout_centerVertical="true" />
 </LinearLayout>
