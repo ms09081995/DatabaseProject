@@ -193,8 +193,11 @@ namespace BetMobile
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f08001f
-			public const int adMobBanner = 2131230751;
+			// aapt resource value: 0x7f080029
+			public const int ListViewMatches = 2131230761;
+			
+			// aapt resource value: 0x7f080028
+			public const int adMobBanner = 2131230760;
 			
 			// aapt resource value: 0x7f080000
 			public const int adjust_height = 2131230720;
@@ -211,56 +214,56 @@ namespace BetMobile
 			// aapt resource value: 0x7f08000d
 			public const int buttonBack = 2131230733;
 			
+			// aapt resource value: 0x7f080027
+			public const int buttonClose = 2131230759;
+			
+			// aapt resource value: 0x7f080017
+			public const int buttonGetMoney = 2131230743;
+			
 			// aapt resource value: 0x7f08001e
-			public const int buttonClose = 2131230750;
+			public const int buttonLogIn = 2131230750;
 			
-			// aapt resource value: 0x7f08000e
-			public const int buttonGetMoney = 2131230734;
+			// aapt resource value: 0x7f080026
+			public const int buttonLogout = 2131230758;
 			
-			// aapt resource value: 0x7f080015
-			public const int buttonLogIn = 2131230741;
-			
-			// aapt resource value: 0x7f08001d
-			public const int buttonLogout = 2131230749;
-			
-			// aapt resource value: 0x7f080023
-			public const int buttonRegister = 2131230755;
-			
-			// aapt resource value: 0x7f080011
-			public const int buttonToAddMoney = 2131230737;
-			
-			// aapt resource value: 0x7f08001b
-			public const int buttonToBets = 2131230747;
-			
-			// aapt resource value: 0x7f080012
-			public const int buttonToGetMoney = 2131230738;
-			
-			// aapt resource value: 0x7f08001c
-			public const int buttonToInfo = 2131230748;
-			
-			// aapt resource value: 0x7f080018
-			public const int buttonToLogin = 2131230744;
+			// aapt resource value: 0x7f08002d
+			public const int buttonRegister = 2131230765;
 			
 			// aapt resource value: 0x7f08001a
-			public const int buttonToMatches = 2131230746;
+			public const int buttonToAddMoney = 2131230746;
 			
-			// aapt resource value: 0x7f080019
-			public const int buttonToRegister = 2131230745;
+			// aapt resource value: 0x7f080024
+			public const int buttonToBets = 2131230756;
+			
+			// aapt resource value: 0x7f08001b
+			public const int buttonToGetMoney = 2131230747;
+			
+			// aapt resource value: 0x7f080025
+			public const int buttonToInfo = 2131230757;
+			
+			// aapt resource value: 0x7f080021
+			public const int buttonToLogin = 2131230753;
+			
+			// aapt resource value: 0x7f080023
+			public const int buttonToMatches = 2131230755;
+			
+			// aapt resource value: 0x7f080022
+			public const int buttonToRegister = 2131230754;
 			
 			// aapt resource value: 0x7f080007
 			public const int dark = 2131230727;
 			
-			// aapt resource value: 0x7f080013
-			public const int editTextLogin = 2131230739;
+			// aapt resource value: 0x7f08001c
+			public const int editTextLogin = 2131230748;
 			
 			// aapt resource value: 0x7f08000b
 			public const int editTextMoney = 2131230731;
 			
-			// aapt resource value: 0x7f080014
-			public const int editTextPassword = 2131230740;
+			// aapt resource value: 0x7f08001d
+			public const int editTextPassword = 2131230749;
 			
-			// aapt resource value: 0x7f080022
-			public const int editTextPassword2 = 2131230754;
+			// aapt resource value: 0x7f08002c
+			public const int editTextPassword2 = 2131230764;
 			
 			// aapt resource value: 0x7f080003
 			public const int icon_only = 2131230723;
@@ -268,8 +271,11 @@ namespace BetMobile
 			// aapt resource value: 0x7f080008
 			public const int light = 2131230728;
 			
-			// aapt resource value: 0x7f080017
-			public const int linearlayaoutmain = 2131230743;
+			// aapt resource value: 0x7f080020
+			public const int linearlayaoutmain = 2131230752;
+			
+			// aapt resource value: 0x7f080016
+			public const int listViewBets = 2131230742;
 			
 			// aapt resource value: 0x7f080002
 			public const int none = 2131230722;
@@ -283,20 +289,44 @@ namespace BetMobile
 			// aapt resource value: 0x7f08000a
 			public const int textView2 = 2131230730;
 			
-			// aapt resource value: 0x7f080020
-			public const int textView3 = 2131230752;
+			// aapt resource value: 0x7f08002a
+			public const int textView3 = 2131230762;
 			
-			// aapt resource value: 0x7f080021
-			public const int textView4 = 2131230753;
-			
-			// aapt resource value: 0x7f08000f
-			public const int textViewLogin = 2131230735;
-			
-			// aapt resource value: 0x7f080016
-			public const int textViewLoginError = 2131230742;
+			// aapt resource value: 0x7f08002b
+			public const int textView4 = 2131230763;
 			
 			// aapt resource value: 0x7f080010
-			public const int textViewMoney = 2131230736;
+			public const int textViewGosc = 2131230736;
+			
+			// aapt resource value: 0x7f08000f
+			public const int textViewGosp = 2131230735;
+			
+			// aapt resource value: 0x7f080013
+			public const int textViewKurs = 2131230739;
+			
+			// aapt resource value: 0x7f080018
+			public const int textViewLogin = 2131230744;
+			
+			// aapt resource value: 0x7f08001f
+			public const int textViewLoginError = 2131230751;
+			
+			// aapt resource value: 0x7f080019
+			public const int textViewMoney = 2131230745;
+			
+			// aapt resource value: 0x7f08000e
+			public const int textViewNumber = 2131230734;
+			
+			// aapt resource value: 0x7f080011
+			public const int textViewResult = 2131230737;
+			
+			// aapt resource value: 0x7f080012
+			public const int textViewStawka = 2131230738;
+			
+			// aapt resource value: 0x7f080014
+			public const int textViewTyp = 2131230740;
+			
+			// aapt resource value: 0x7f080015
+			public const int textViewWygrana = 2131230741;
 			
 			// aapt resource value: 0x7f080005
 			public const int wide = 2131230725;
@@ -334,19 +364,31 @@ namespace BetMobile
 			public const int AddMoney = 2130903040;
 			
 			// aapt resource value: 0x7f030001
-			public const int GetMoney = 2130903041;
+			public const int BetInfo = 2130903041;
 			
 			// aapt resource value: 0x7f030002
-			public const int Info = 2130903042;
+			public const int Bets = 2130903042;
 			
 			// aapt resource value: 0x7f030003
-			public const int Login = 2130903043;
+			public const int GetMoney = 2130903043;
 			
 			// aapt resource value: 0x7f030004
-			public const int Main = 2130903044;
+			public const int Info = 2130903044;
 			
 			// aapt resource value: 0x7f030005
-			public const int Register = 2130903045;
+			public const int ListItem = 2130903045;
+			
+			// aapt resource value: 0x7f030006
+			public const int Login = 2130903046;
+			
+			// aapt resource value: 0x7f030007
+			public const int Main = 2130903047;
+			
+			// aapt resource value: 0x7f030008
+			public const int Matches = 2130903048;
+			
+			// aapt resource value: 0x7f030009
+			public const int Register = 2130903049;
 			
 			static Layout()
 			{

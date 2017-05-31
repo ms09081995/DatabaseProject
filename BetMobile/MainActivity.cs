@@ -7,6 +7,9 @@ using Android.Widget;
 using Android.OS;
 using Android.Gms.Ads;
 using BetMobile.WebReference;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+
 namespace BetMobile
 {
     [Activity(Label = "BetMobile", MainLauncher = true, Icon = "@drawable/icon")]
@@ -37,6 +40,20 @@ namespace BetMobile
         private TextView _textViewLoginError;
         private TextView _textViewAccount;
         private TextView _textViewMoney;
+
+        private TextView _textViewNumber;
+        private TextView _textViewGosp;
+        private TextView _textViewGosc;
+        private TextView _textViewResult;
+        private TextView _textViewKurs;
+        private TextView _textViewStawka;
+        private TextView _textViewTyp;
+        private TextView _textViewWygrana;
+
+        private ListView _listViewMatches;
+        private List<string> _matches;
+        private ListView _listViewBets;
+        private List<string> _bets;
         public WSToDatabase ws;
 
         protected override void OnCreate(Bundle bundle)
@@ -69,8 +86,12 @@ namespace BetMobile
                         break;
                     }
                 case Resource.Id.buttonToMatches:
+                   // ConstructMatchesView();
+                    ConstructBetInfoView();
                     break;
                 case Resource.Id.buttonToBets:
+                    ConstructBetsView();
+                   
                     break;
                 case Resource.Id.buttonToInfo:
                     ConstructAccountInfoPage();
@@ -162,7 +183,23 @@ namespace BetMobile
 
             }
         }
+        private void ListViewClick(object sender, AdapterView.ItemClickEventArgs e)
+        {
+            ListView lw = (ListView)sender;
 
+
+            switch (lw.Id)
+            {
+               
+                case Resource.Id.ListViewMatches:
+                    {
+                        ConstructLoginPage();
+                        break;
+                    }
+
+
+            }
+        }
         private void ConstructStartPage()
         {
             SetContentView(Resource.Layout.Main);
@@ -232,6 +269,41 @@ namespace BetMobile
 
 
         }
+
+        private void ConstructMatchesView()
+        {
+            SetContentView(Resource.Layout.Matches);
+            _buttonBack = FindViewById<Button>(Resource.Id.buttonBack);
+            _buttonBack.Click += ButtonClick;
+            _listViewMatches = FindViewById<ListView>(Resource.Id.ListViewMatches);
+            //_listViewMatches.Click += ListViewClick;
+            _matches = new List<string>();
+            _matches.Add("1");
+            _matches.Add("2");
+            _matches.Add("3");
+            _matches.Add("4");
+            _matches.Add("5");
+            ArrayAdapter<string> adapater = new ArrayAdapter<string>(this, Resource.Layout.ListItem, _matches);
+            _listViewMatches.Adapter = adapater;
+        }
+        private void ConstructBetsView()
+        {
+            SetContentView(Resource.Layout.Bets);
+            _buttonBack = FindViewById<Button>(Resource.Id.buttonBack);
+            _buttonBack.Click += ButtonClick;
+            _listViewBets = FindViewById<ListView>(Resource.Id.listViewBets);
+            //_listViewMatches.Click += ListViewClick;
+            var list  = JsonConvert.DeserializeObject<List<Models.DataBaseModel.Bet>>(ws.GetUserBets(_userName.ToString()));
+            _bets = new List<string>();
+            for(int i=0;i<list.Count;i++)
+            {
+                _bets.Add(list[i].id_zaklad.ToString());
+            }            
+            
+            ArrayAdapter<string> adapater = new ArrayAdapter<string>(this, Resource.Layout.ListItem, _bets);
+            _listViewBets.Adapter = adapater;
+
+        }
         private void ConstructAccountInfoPage()
         {
             SetContentView(Resource.Layout.Info);
@@ -246,6 +318,37 @@ namespace BetMobile
             _textViewAccount.Text = "Nazwa użytkownika: " + _userName;
             _textViewMoney = FindViewById<TextView>(Resource.Id.textViewMoney);
             _textViewMoney.Text = "Stan konta: " + _money + " PLN";
+
+
+        }
+
+        private void ConstructBetInfoView()
+        {
+            var currentbet = JsonConvert.DeserializeObject<List<Models.DataBaseModel.Bet>>(ws.GetUserBets(_userName.ToString()));
+            var match = JsonConvert.DeserializeObject<Models.DataBaseModel.Match>(ws.GetMatcheById(Convert.ToInt32(currentbet[0].id_mecz)));
+            var team1 = JsonConvert.DeserializeObject<Models.DataBaseModel.Team>(ws.GetTeamById(Convert.ToInt32(match.id_gosp))).nazwa;
+            var team2 = JsonConvert.DeserializeObject<Models.DataBaseModel.Team>(ws.GetTeamById(Convert.ToInt32(match.id_gosp))).nazwa;
+            SetContentView(Resource.Layout.BetInfo);
+            _buttonBack = FindViewById<Button>(Resource.Id.buttonBack);
+            _buttonBack.Click += ButtonClick;
+            _textViewNumber = FindViewById<TextView>(Resource.Id.textViewNumber);
+            _textViewGosp = FindViewById<TextView>(Resource.Id.textViewGosp);
+            _textViewGosc = FindViewById<TextView>(Resource.Id.textViewGosc);
+            _textViewResult = FindViewById<TextView>(Resource.Id.textViewResult);
+            _textViewStawka = FindViewById<TextView>(Resource.Id.textViewStawka);
+            _textViewKurs = FindViewById<TextView>(Resource.Id.textViewKurs);
+            _textViewTyp = FindViewById<TextView>(Resource.Id.textViewTyp);
+            _textViewWygrana = FindViewById<TextView>(Resource.Id.textViewWygrana);
+            _textViewNumber.Text = "Zakład numer: "+ currentbet[0].id_zaklad;
+            _textViewGosp.Text = "Drużyna Gospodaży: "+ team1;
+            _textViewGosc.Text = "Drużyna gości: "+ team2;
+            _textViewResult.Text = "Wynik: " + match.bramki_gosp + " : " + match.bramki_gosc;
+            _textViewStawka.Text = "Stawka: "+ currentbet[0].kwota;
+            _textViewKurs.Text = "Kurs: "+ match.kurs ;
+            _textViewTyp.Text = "Typ: "+ currentbet[0].typ; ;
+            _textViewWygrana.Text ="Wygrana: "+currentbet[0].wygrana;
+
+
 
 
         }
