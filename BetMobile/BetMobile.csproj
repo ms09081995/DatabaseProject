@@ -169,6 +169,9 @@
     <AndroidResource Include="Resources\layout\BetInfo.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\layout\AddBetForUser.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
     <None Include="Web References\WebReference\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>

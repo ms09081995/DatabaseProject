@@ -4,68 +4,63 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <TextView
-        android:text="Zakład numer: "
+        android:text="Nowy zakład"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textViewNumber" />
+        android:id="@+id/textView1" />
     <TextView
-        android:text="Drużyna gospodarzy: "
+        android:text="Mecz: "
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textViewGosp" />
+        android:id="@+id/textViewMecz" />
     <TextView
-        android:text="Drużyna gości: "
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textViewGosc" />
-    <TextView
-        android:text="Wynik: "
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textViewResult" />
-  <TextView
         android:text="Minuta: "
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textViewMinuta" />
-
-  <TextView
-        android:text="Stawka: "
+    <TextView
+        android:text="Aktualny Wynik"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textViewStawka" />
+        android:id="@+id/textViewResult" />
     <TextView
-        android:text="Kurs"
+        android:text="Kurs: "
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textViewKurs" />
-  <TextView
-        android:text="Typ"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textViewTyp" />
     <TextView
-        android:text="Wygrana"
+        android:text="Wybierz: "
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textViewWygrana" />
+        android:id="@+id/textView6" />
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner1" 
+  android:prompt ="@string/planet_prompt"
+        />
   <TextView
-        android:text="Status"
+        android:text="Kwota zakładu: "
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textViewStatus" />
-
-  <Button
+        android:id="@+id/textView7" />
+  <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editTextMoney" />
+    <Button
+        android:text="Złóż zakład"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonAddBet" />
+<Button
         android:text="Wstecz"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

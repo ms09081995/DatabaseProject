@@ -31,7 +31,7 @@ namespace BetWebService
         [WebMethod]
         public string Login(string login, string haslo)
         {
-            foreach (User u in context.Users)
+                   foreach (User u in context.Users)
             {
                 if (u.login == login && u.haslo == haslo)
                 {
@@ -44,9 +44,9 @@ namespace BetWebService
         [WebMethod]
         public bool AddNewUser(string login, string haslo, int wiek)
         {
-            /*if (GetUserIndex(login) > -1)
+            if (GetUserIndex(login) > -1)
                 return false;
-                */
+
             User newuser = new User();
             newuser.login = login;
             newuser.haslo = haslo;
@@ -130,7 +130,7 @@ namespace BetWebService
 
             foreach (Match m in context.Matches)
             {
-                if ((time == 1 && m.minuta == 0) || (time == 0 && m.minuta < 90 && m.minuta > 0) || (time == 2 && m.minuta > 90))
+                if ((time == 2 && m.minuta == 0) || (time == 0 && m.minuta < 90 && m.minuta > 0) || (time == 1 && m.minuta == 90))
                 {
                     if (leagueID == GetMatchLeague(Convert.ToInt32(m.id_gosp)).id_liga)
                         li.Add(m);
@@ -269,51 +269,65 @@ namespace BetWebService
                 if (m.minuta < 90)
                 {
                     m.minuta += 1;
+                    Random rand = new Random();
+                    var a = rand.Next(0, 20);
+                    if (a == 1)
+                    {
+                        m.bramki_gosc += 1;
+                    }
+                    if (a == 2)
+                    {
+                        m.bramki_gosp += 1;
+                    }
                 }
+                
             }
             context.SaveChanges();
         }
         [WebMethod]
         public void UpdateBetStatus()
         {
-            foreach(Match m in context.Matches)
+            foreach (Match m in context.Matches)
             {
-                if(m.minuta==90)
+                if (m.minuta == 90)
                 {
-                    foreach(Bet b in context.Bets)
+                    foreach (Bet b in context.Bets)
                     {
-                        if(b.id_mecz==m.id_mecz)
+                        if (b.id_mecz == m.id_mecz)
                         {
-                            if(b.typ==0)
+                            if (b.status.Replace(" ", "") != "Wyplacony")
                             {
-                                if(m.bramki_gosc==m.bramki_gosp)
+                                if (b.typ == 0)
                                 {
-                                    b.status = "Do wyplaty";
-                                    
-                                }
-                            }
-                            if (b.typ == 1)
-                            {
-                                if (m.bramki_gosc < m.bramki_gosp)
-                                {
-                                    b.status = "Do wyplaty";
-                                   
-                                }
-                            }
-                            if (b.typ == 2)
-                            {
-                                if (m.bramki_gosc > m.bramki_gosp)
-                                {
-                                    b.status = "Do wyplaty";
+                                    if (m.bramki_gosc == m.bramki_gosp)
+                                    {
+                                        b.status = "Do wyplaty";
 
-                                    
+                                    }
                                 }
+                                if (b.typ == 1)
+                                {
+                                    if (m.bramki_gosc < m.bramki_gosp)
+                                    {
+                                        b.status = "Do wyplaty";
+
+                                    }
+                                }
+                                if (b.typ == 2)
+                                {
+                                    if (m.bramki_gosc > m.bramki_gosp)
+                                    {
+                                        b.status = "Do wyplaty";
+
+
+                                    }
+                                }
+                                if (b.status.Replace(" ", "") == "Wtoku")
+                                    b.status = "Przegrany";
                             }
-                            if(b.status== "W toku")
-                                b.status = "Przegrany";
                         }
                     }
-                    
+
                 }
             }
             context.SaveChanges();
@@ -336,6 +350,20 @@ namespace BetWebService
             });
 
         }
+        [WebMethod]
+        public void AddGoal(int matchId, int czyGol)
+        {
+            Random rand = new Random();
+            var match = GetMatchById(matchId);
+            if (czyGol % 3 == 0)
+                match.bramki_gosc += 1;
+            if (czyGol % 2 == 0)
+                match.bramki_gosp += 1;
+
+            context.SaveChanges();
+        }
+
+
         [WebMethod]
         public bool AddMatch(int kurs, int id_gosc, int id_gosp, DateTime data, int bramki_gosc, int bramki_gosp, int minuta)
         {
@@ -384,7 +412,7 @@ namespace BetWebService
             {
                 foreach (Bet b in bets)
                 {
-                    if (b.status == "Do wyplaty")
+                    if (b.status.Replace(" ", "") == "Dowyplaty")
                     {
                         user.stan_konta += b.wygrana;
                         b.status = "Wyplacony";
@@ -406,9 +434,6 @@ namespace BetWebService
             }
             return bets;
         }
-        #endregion
-
-        #region Betmoblie
         #endregion
 
     }

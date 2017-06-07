@@ -36,6 +36,7 @@ namespace BetMobile
         private Button _buttonBack;
         private Button _buttonAddMoney;
         private Button _buttonGetMoney;
+        private Button _buttonaddBet;
 
         private TextView _textViewLoginError;
         private TextView _textViewAccount;
@@ -49,17 +50,25 @@ namespace BetMobile
         private TextView _textViewStawka;
         private TextView _textViewTyp;
         private TextView _textViewWygrana;
+        private TextView _textViewMecz;
+        private TextView _textViewMinuta;
+        private TextView _textViewStatus;
+
+        private Spinner _spinnerTyp;
+        private EditText _editTextKwota;
+            
 
         private ListView _listViewMatches;
         private List<string> _matches;
         private ListView _listViewBets;
+        private int _currentMatchID;
         private List<string> _bets;
         public WSToDatabase ws;
 
         protected override void OnCreate(Bundle bundle)
         {
             ws = new WSToDatabase();
-            ws.Url = "http://95.108.69.237:3000/WSToDatabase.asmx";
+            ws.Url = "http://192.168.43.107:3000/WSToDatabase.asmx";
             base.OnCreate(bundle);
             ConstructStartPage();
         }
@@ -86,8 +95,7 @@ namespace BetMobile
                         break;
                     }
                 case Resource.Id.buttonToMatches:
-                   // ConstructMatchesView();
-                    ConstructBetInfoView();
+                   ConstructMatchesView();
                     break;
                 case Resource.Id.buttonToBets:
                     ConstructBetsView();
@@ -173,7 +181,12 @@ namespace BetMobile
                     btn.RequestFocus();
                     ConstructAccountInfoPage();
                     break;
-
+                case Resource.Id.buttonAddBet:
+                    money = FindViewById<EditText>(Resource.Id.editTextMoney);
+                    var typ = FindViewById<Spinner>(Resource.Id.spinner1).SelectedItemPosition;
+                    ws.AddBetForUser(_userName, Convert.ToInt32(money.Text), _currentMatchID, typ);
+                    ConstructBetsView();
+                    break;
                 #endregion
 
                 case Resource.Id.buttonBack:
@@ -183,23 +196,26 @@ namespace BetMobile
 
             }
         }
-        private void ListViewClick(object sender, AdapterView.ItemClickEventArgs e)
+        void listView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
-            ListView lw = (ListView)sender;
+            ListView lv = (ListView)sender;
 
-
-            switch (lw.Id)
+            if (lv.Id== Resource.Id.listViewBets)
             {
-               
-                case Resource.Id.ListViewMatches:
-                    {
-                        ConstructLoginPage();
-                        break;
-                    }
+                var item = this._listViewBets.GetItemAtPosition(e.Position);
+                ConstructBetInfoView(e.Position);
+            }
+            else
+            {
+                var item = this._listViewMatches.GetItemAtPosition(e.Position);
+                var startpos = item.ToString().IndexOf(":");
+                var endpos = item.ToString().IndexOf("M");
+                _currentMatchID = Convert.ToInt32(item.ToString().Substring(3, endpos - 4));
 
+                ConstructAddBetView(_currentMatchID);
 
             }
-        }
+}
         private void ConstructStartPage()
         {
             SetContentView(Resource.Layout.Main);
@@ -241,6 +257,7 @@ namespace BetMobile
                 _buttonToClose.Enabled = true;
             }
             var ad = FindViewById<AdView>(Resource.Id.adMobBanner);
+           
             var adRequest = new AdRequest.Builder().Build();
 
             ad.LoadAd(adRequest);
@@ -276,13 +293,17 @@ namespace BetMobile
             _buttonBack = FindViewById<Button>(Resource.Id.buttonBack);
             _buttonBack.Click += ButtonClick;
             _listViewMatches = FindViewById<ListView>(Resource.Id.ListViewMatches);
-            //_listViewMatches.Click += ListViewClick;
+            _listViewMatches.ItemClick += listView_ItemClick;
+
             _matches = new List<string>();
-            _matches.Add("1");
-            _matches.Add("2");
-            _matches.Add("3");
-            _matches.Add("4");
-            _matches.Add("5");
+            var list = JsonConvert.DeserializeObject<List<Models.DataBaseModel.Match>>(ws.GetMatches());
+            for (int i = list.Count - 1; i >= 0; i--)
+            {
+                var team1 = JsonConvert.DeserializeObject<Models.DataBaseModel.Team>(ws.GetTeamById(Convert.ToInt32(list[i].id_gosp))).nazwa;
+                var team2 = JsonConvert.DeserializeObject<Models.DataBaseModel.Team>(ws.GetTeamById(Convert.ToInt32(list[i].id_gosc))).nazwa;
+
+                _matches.Add("ID:" + list[i].id_mecz+ "\nMecz: "+team1+"-"+team2 + "\nMinuta: " + list[i].minuta + "\nKurs: "+list[i].kurs);
+            }
             ArrayAdapter<string> adapater = new ArrayAdapter<string>(this, Resource.Layout.ListItem, _matches);
             _listViewMatches.Adapter = adapater;
         }
@@ -292,12 +313,12 @@ namespace BetMobile
             _buttonBack = FindViewById<Button>(Resource.Id.buttonBack);
             _buttonBack.Click += ButtonClick;
             _listViewBets = FindViewById<ListView>(Resource.Id.listViewBets);
-            //_listViewMatches.Click += ListViewClick;
+            _listViewBets.ItemClick += listView_ItemClick;
             var list  = JsonConvert.DeserializeObject<List<Models.DataBaseModel.Bet>>(ws.GetUserBets(_userName.ToString()));
             _bets = new List<string>();
-            for(int i=0;i<list.Count;i++)
+            for(int i=list.Count-1;i>=0;i--)
             {
-                _bets.Add(list[i].id_zaklad.ToString());
+                _bets.Add("Numer zakładu: "+list[i].id_zaklad.ToString() + "\nStatus: " + list[i].status +"\nDo wygrania: " + list[i].wygrana);
             }            
             
             ArrayAdapter<string> adapater = new ArrayAdapter<string>(this, Resource.Layout.ListItem, _bets);
@@ -322,12 +343,12 @@ namespace BetMobile
 
         }
 
-        private void ConstructBetInfoView()
+        private void ConstructBetInfoView(int position)
         {
             var currentbet = JsonConvert.DeserializeObject<List<Models.DataBaseModel.Bet>>(ws.GetUserBets(_userName.ToString()));
-            var match = JsonConvert.DeserializeObject<Models.DataBaseModel.Match>(ws.GetMatcheById(Convert.ToInt32(currentbet[0].id_mecz)));
+            var match = JsonConvert.DeserializeObject<Models.DataBaseModel.Match>(ws.GetMatcheById(Convert.ToInt32(currentbet[currentbet.Count - 1 - position].id_mecz)));
             var team1 = JsonConvert.DeserializeObject<Models.DataBaseModel.Team>(ws.GetTeamById(Convert.ToInt32(match.id_gosp))).nazwa;
-            var team2 = JsonConvert.DeserializeObject<Models.DataBaseModel.Team>(ws.GetTeamById(Convert.ToInt32(match.id_gosp))).nazwa;
+            var team2 = JsonConvert.DeserializeObject<Models.DataBaseModel.Team>(ws.GetTeamById(Convert.ToInt32(match.id_gosc))).nazwa;
             SetContentView(Resource.Layout.BetInfo);
             _buttonBack = FindViewById<Button>(Resource.Id.buttonBack);
             _buttonBack.Click += ButtonClick;
@@ -339,17 +360,95 @@ namespace BetMobile
             _textViewKurs = FindViewById<TextView>(Resource.Id.textViewKurs);
             _textViewTyp = FindViewById<TextView>(Resource.Id.textViewTyp);
             _textViewWygrana = FindViewById<TextView>(Resource.Id.textViewWygrana);
-            _textViewNumber.Text = "Zakład numer: "+ currentbet[0].id_zaklad;
+            _textViewMinuta = FindViewById<TextView>(Resource.Id.textViewMinuta);
+            _textViewStatus = FindViewById<TextView>(Resource.Id.textViewStatus);
+            _textViewNumber.Text = "Zakład numer: "+ currentbet[currentbet.Count-1-position].id_zaklad;
             _textViewGosp.Text = "Drużyna Gospodaży: "+ team1;
             _textViewGosc.Text = "Drużyna gości: "+ team2;
             _textViewResult.Text = "Wynik: " + match.bramki_gosp + " : " + match.bramki_gosc;
-            _textViewStawka.Text = "Stawka: "+ currentbet[0].kwota;
+            _textViewStawka.Text = "Stawka: "+ currentbet[currentbet.Count - 1 - position].kwota;
             _textViewKurs.Text = "Kurs: "+ match.kurs ;
-            _textViewTyp.Text = "Typ: "+ currentbet[0].typ; ;
-            _textViewWygrana.Text ="Wygrana: "+currentbet[0].wygrana;
+            if(match.minuta>=90)
+            {
+                _textViewMinuta.Text = "Minuta: Zakończony";
+            }
+            else
+            {
+                _textViewMinuta.Text = "Minuta: "+match.minuta;
+            }
+            _textViewStatus.Text ="Status: " + currentbet[currentbet.Count - 1 - position].status.ToString();
 
 
+            var typ = currentbet[currentbet.Count - 1 - position].typ;
+            switch(typ)
+            {
+                case 0:
+                    _textViewTyp.Text = "Typ: Remis";
+                    break;
+                case 1:
+                    _textViewTyp.Text = "Typ: Wygrana gospodarzy";
+                    break;
+                case 2:
+                    _textViewTyp.Text = "Typ: Wygrana gości";
+                    break;
+            }
+            
+            _textViewWygrana.Text ="Do wygrania: "+currentbet[currentbet.Count - 1 - position].wygrana;
+        }
 
+        private void ConstructMatchInfoView(int position)
+        {
+            var currentbet = JsonConvert.DeserializeObject<List<Models.DataBaseModel.Bet>>(ws.GetUserBets(_userName.ToString()));
+            var match = JsonConvert.DeserializeObject<Models.DataBaseModel.Match>(ws.GetMatcheById(Convert.ToInt32(currentbet[0].id_mecz)));
+            var team1 = JsonConvert.DeserializeObject<Models.DataBaseModel.Team>(ws.GetTeamById(Convert.ToInt32(match.id_gosp))).nazwa;
+            var team2 = JsonConvert.DeserializeObject<Models.DataBaseModel.Team>(ws.GetTeamById(Convert.ToInt32(match.id_gosc))).nazwa;
+            SetContentView(Resource.Layout.BetInfo);
+            _buttonBack = FindViewById<Button>(Resource.Id.buttonBack);
+            _buttonBack.Click += ButtonClick;
+            _textViewNumber = FindViewById<TextView>(Resource.Id.textViewNumber);
+            _textViewGosp = FindViewById<TextView>(Resource.Id.textViewGosp);
+            _textViewGosc = FindViewById<TextView>(Resource.Id.textViewGosc);
+            _textViewResult = FindViewById<TextView>(Resource.Id.textViewResult);
+            _textViewStawka = FindViewById<TextView>(Resource.Id.textViewStawka);
+            _textViewKurs = FindViewById<TextView>(Resource.Id.textViewKurs);
+            _textViewTyp = FindViewById<TextView>(Resource.Id.textViewTyp);
+            _textViewWygrana = FindViewById<TextView>(Resource.Id.textViewWygrana);
+            _textViewNumber.Text = "Zakład numer: " + currentbet[currentbet.Count - 1 - position].id_zaklad;
+            _textViewGosp.Text = "Drużyna Gospodaży: " + team1;
+            _textViewGosc.Text = "Drużyna gości: " + team2;
+            _textViewResult.Text = "Wynik: " + match.bramki_gosp + " : " + match.bramki_gosc;
+            _textViewStawka.Text = "Stawka: " + currentbet[currentbet.Count - 1 - position].kwota;
+            _textViewKurs.Text = "Kurs: " + match.kurs;
+            _textViewTyp.Text = "Typ: " + currentbet[currentbet.Count - 1 - position].typ; ;
+            _textViewWygrana.Text = " Do wygrania: " + currentbet[currentbet.Count - 1 - position].wygrana;
+        }
+
+        private void ConstructAddBetView(int position)
+        {
+            var match = JsonConvert.DeserializeObject<Models.DataBaseModel.Match>(ws.GetMatcheById(Convert.ToInt32(position)));
+            var team1 = JsonConvert.DeserializeObject<Models.DataBaseModel.Team>(ws.GetTeamById(Convert.ToInt32(match.id_gosp))).nazwa;
+            var team2 = JsonConvert.DeserializeObject<Models.DataBaseModel.Team>(ws.GetTeamById(Convert.ToInt32(match.id_gosc))).nazwa;
+            SetContentView(Resource.Layout.AddBetForUser);
+            _buttonBack = FindViewById<Button>(Resource.Id.buttonBack);
+            _buttonBack.Click += ButtonClick;
+            _buttonaddBet = FindViewById<Button>(Resource.Id.buttonAddBet);
+            _buttonaddBet.Click += ButtonClick;
+            _textViewMecz = FindViewById<TextView>(Resource.Id.textViewMecz);
+            _textViewMinuta = FindViewById<TextView>(Resource.Id.textViewMinuta);
+            _textViewResult = FindViewById<TextView>(Resource.Id.textViewResult);
+            _textViewKurs = FindViewById<TextView>(Resource.Id.textViewKurs);
+            _spinnerTyp = FindViewById<Spinner>(Resource.Id.spinner1);
+
+            var adapter = ArrayAdapter.CreateFromResource(this, Resource.Array.typ, Android.Resource.Layout.SimpleSpinnerItem);
+            adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
+            _spinnerTyp.Adapter = adapter;
+
+            _textViewMecz.Text = "Mecz: "+ team1 + "-"+ team2;
+            _textViewMinuta.Text = "Minuta: " + match.minuta;
+            _textViewResult.Text = "Wynik: " + match.bramki_gosp + " : " + match.bramki_gosc;
+            _textViewKurs.Text = "Kurs: " + match.kurs;
+            
+            
 
         }
 
@@ -368,6 +467,11 @@ namespace BetMobile
             _buttonGetMoney.Click += ButtonClick;
             _buttonBack = FindViewById<Button>(Resource.Id.buttonBack);
             _buttonBack.Click += ButtonClick;
+        }
+
+        public override void OnBackPressed()
+        {
+            ConstructStartPage();
         }
     }
 }

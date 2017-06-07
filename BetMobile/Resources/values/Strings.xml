@@ -2,4 +2,12 @@
 <resources>
     <string name="Hello">Hello World, Click Me!</string>
     <string name="ApplicationName">BetMobile</string>
+  <string name="planet_prompt">Nie wybrano</string>
+
+  <string-array name="typ">
+    <item>Remis</item>
+    <item>Wygrana gospodarzy</item>
+    <item>Wygrana gości</item>    
+  </string-array>
+
 </resources>

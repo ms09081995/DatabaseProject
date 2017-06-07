@@ -234,6 +234,17 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="AddGoal">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="matchId" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="czyGol" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddGoalResponse">
+        <s:complexType />
+      </s:element>
       <s:element name="AddMatch">
         <s:complexType>
           <s:sequence>
@@ -370,6 +381,12 @@
   <wsdl:message name="GetMatcheByIdSoapOut">
     <wsdl:part name="parameters" element="tns:GetMatcheByIdResponse" />
   </wsdl:message>
+  <wsdl:message name="AddGoalSoapIn">
+    <wsdl:part name="parameters" element="tns:AddGoal" />
+  </wsdl:message>
+  <wsdl:message name="AddGoalSoapOut">
+    <wsdl:part name="parameters" element="tns:AddGoalResponse" />
+  </wsdl:message>
   <wsdl:message name="AddMatchSoapIn">
     <wsdl:part name="parameters" element="tns:AddMatch" />
   </wsdl:message>
@@ -452,6 +469,10 @@
     <wsdl:operation name="GetMatcheById">
       <wsdl:input message="tns:GetMatcheByIdSoapIn" />
       <wsdl:output message="tns:GetMatcheByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddGoal">
+      <wsdl:input message="tns:AddGoalSoapIn" />
+      <wsdl:output message="tns:AddGoalSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="AddMatch">
       <wsdl:input message="tns:AddMatchSoapIn" />
@@ -624,6 +645,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetMatcheById">
       <soap:operation soapAction="http://tempuri.org/GetMatcheById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddGoal">
+      <soap:operation soapAction="http://tempuri.org/AddGoal" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -807,6 +837,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetMatcheById">
       <soap12:operation soapAction="http://tempuri.org/GetMatcheById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddGoal">
+      <soap12:operation soapAction="http://tempuri.org/AddGoal" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

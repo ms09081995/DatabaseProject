@@ -67,6 +67,8 @@ namespace BetMobile.WebReference {
         
         private System.Threading.SendOrPostCallback GetMatcheByIdOperationCompleted;
         
+        private System.Threading.SendOrPostCallback AddGoalOperationCompleted;
+        
         private System.Threading.SendOrPostCallback AddMatchOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
@@ -163,6 +165,9 @@ namespace BetMobile.WebReference {
         
         /// <remarks/>
         public event GetMatcheByIdCompletedEventHandler GetMatcheByIdCompleted;
+        
+        /// <remarks/>
+        public event AddGoalCompletedEventHandler AddGoalCompleted;
         
         /// <remarks/>
         public event AddMatchCompletedEventHandler AddMatchCompleted;
@@ -721,6 +726,36 @@ namespace BetMobile.WebReference {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/AddGoal", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void AddGoal(int matchId, int czyGol) {
+            this.Invoke("AddGoal", new object[] {
+                        matchId,
+                        czyGol});
+        }
+        
+        /// <remarks/>
+        public void AddGoalAsync(int matchId, int czyGol) {
+            this.AddGoalAsync(matchId, czyGol, null);
+        }
+        
+        /// <remarks/>
+        public void AddGoalAsync(int matchId, int czyGol, object userState) {
+            if ((this.AddGoalOperationCompleted == null)) {
+                this.AddGoalOperationCompleted = new System.Threading.SendOrPostCallback(this.OnAddGoalOperationCompleted);
+            }
+            this.InvokeAsync("AddGoal", new object[] {
+                        matchId,
+                        czyGol}, this.AddGoalOperationCompleted, userState);
+        }
+        
+        private void OnAddGoalOperationCompleted(object arg) {
+            if ((this.AddGoalCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.AddGoalCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/AddMatch", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool AddMatch(int kurs, int id_gosc, int id_gosp, System.DateTime data, int bramki_gosc, int bramki_gosp, int minuta) {
             object[] results = this.Invoke("AddMatch", new object[] {
@@ -1185,6 +1220,10 @@ namespace BetMobile.WebReference {
             }
         }
     }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    public delegate void AddGoalCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
